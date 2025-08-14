@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clients', function (Blueprint $table) {
+
+        Schema::create('pictures', function (Blueprint $table) {
             $table->id();
+            $table->longText('content'); // pode ser base64 ou URL de storage
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('pictures');
     }
 };
