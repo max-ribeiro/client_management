@@ -21,7 +21,7 @@ class ClientFactory extends Factory
         return [
             'name'       => $this->faker->name(),
             'email'      => $this->faker->unique()->safeEmail(),
-            'telephone'  => $this->faker->phoneNumber(),
+            'phone'      => $this->faker->numerify('##########'),
             'address_id' => Address::inRandomOrder()->first()?->id ?? Address::factory(),
             'picture_id' => Picture::inRandomOrder()->first()?->id ?? Picture::factory(),
             'age'        => $this->faker->numberBetween(18, 80),
