@@ -42,5 +42,6 @@ Este projeto é uma aplicação desenvolvida em **Laravel** que implementa um **
 - **MySQL** 8.x
 
 ---
+![Project MVP Planning](https://maxribeiro.tech/public/img/client_management_mvp.png)
 
 ## ⚙ Configuração para Executar
