@@ -15,7 +15,6 @@ return new class extends Migration
         Schema::create('pictures', function (Blueprint $table) {
             $table->id();
             $table->longText('content'); // pode ser base64 ou URL de storage
-            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

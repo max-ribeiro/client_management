@@ -10,6 +10,6 @@ class Picture extends Model
     use HasFactory;
 
     protected $fillable = [
-        'content', 'active'
+        'content'
     ];
 }

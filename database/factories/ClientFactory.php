@@ -25,7 +25,6 @@ class ClientFactory extends Factory
             'address_id' => Address::inRandomOrder()->first()?->id ?? Address::factory(),
             'picture_id' => Picture::inRandomOrder()->first()?->id ?? Picture::factory(),
             'age'        => $this->faker->numberBetween(18, 80),
-            'active'     => $this->faker->boolean(100)
         ];
     }
 }

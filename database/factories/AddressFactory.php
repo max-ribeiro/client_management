@@ -21,8 +21,7 @@ class AddressFactory extends Factory
             'neighborhood' => $this->faker->word(),
             'number'       => $this->faker->buildingNumber(),
             'state'        => $this->faker->state(), // Nome completo
-            'city'         => $this->faker->city(),
-            'active'       => $this->faker->boolean(100) 
+            'city'         => $this->faker->city()
         ];
     }
 }

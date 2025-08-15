@@ -15,7 +15,6 @@ class Address extends Model
         'number',
         'state',
         'city',
-        'active'
     ];
 
     public function clients()

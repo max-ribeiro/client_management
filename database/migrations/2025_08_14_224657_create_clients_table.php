@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('address_id');
             $table->unsignedBigInteger('picture_id')->nullable();
             $table->integer('age');
-            $table->boolean('active')->default(true);
             $table->timestamps();
 
             $table->foreign('address_id')->references('id')->on('addresses');

@@ -18,7 +18,6 @@ class PictureFactory extends Factory
     {
         return [
             'content' => base64_encode($this->faker->text(50)), // Simulando base64
-            'active'  => $this->faker->boolean(100)
         ];
     }
 }
