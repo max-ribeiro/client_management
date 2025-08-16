@@ -22,13 +22,6 @@ class ClientController extends Controller
         return response()->json($clients, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -78,16 +71,45 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request, int $id)
     {
-        //
+        try {
+            $client = $this->client->find($id);
+            if (!$client) {
+                return response()->json(['message' => 'Client not found'], 404);
+            }
+    
+            $client->update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'phone' => $request->input('phone'),
+                'address_id' => $request->input('address'),
+                'picture_id' => $request->input('picture'),
+                'age' => $request->input('age'),
+            ]);
+    
+            return response()->json($client, 200);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return response()->json(['message' => 'Error updating client.'], 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Client $client)
+    public function destroy(int $id)
     {
-        //
+        $client = $this->client->find($id);
+        if (!$client) {
+            return response()->json(['message' => 'Client not found'], 404);
+        }
+
+        try {
+            $client->delete();
+            return response()->json(['message' => 'Client deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error deleting client.'], 500);
+        }
     }
 }
