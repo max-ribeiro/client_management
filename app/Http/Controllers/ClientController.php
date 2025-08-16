@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
-use Ramsey\Uuid\Type\Integer;
+use App\Services\ClientService;
 
 class ClientController extends Controller
 {
     public Client $client;
-    public function __construct(Client $client)
+    private ClientService $service;
+
+    public function __construct(Client $client, ClientService $service)
     {
         $this->client = $client;
+        $this->service = $service;
     }
     /**
      * Display a listing of the resource.
@@ -29,22 +32,14 @@ class ClientController extends Controller
     public function store(Request $request)
     {   
         try {
-            $client = $this->client->create([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'phone' => $request->input('phone'),
-                'address_id' => $request->input('address'),
-                'picture_id' => $request->input('picture'),
-                'age' => $request->input('age'),
-            ]);
-    
+            $client = $this->service->createClient($request->all());   
             if (!$client) {
                 return response()->json(['message' => 'Client could not be created'], 500);
             }
     
             return response()->json($client, 201);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error creating client.'], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
@@ -58,14 +53,6 @@ class ClientController extends Controller
             return response()->json(['message' => 'Client not found'], 404);
         }
         return response()->json($client, 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Client $client)
-    {
-        //
     }
 
     /**
