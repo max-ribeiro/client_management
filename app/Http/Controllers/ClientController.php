@@ -32,7 +32,14 @@ class ClientController extends Controller
     public function store(Request $request)
     {   
         try {
-            $client = $this->service->createClient($request->all());   
+            $params = $request->all();
+            if(empty($params['address']) || empty($params['picture'])) {
+                return response()->json(['message' => 'Address and Picture data are required'], 400);
+            }
+
+            $request->validate(Client::rules());
+
+            $client = $this->service->createClient($params);
             if (!$client) {
                 return response()->json(['message' => 'Client could not be created'], 500);
             }

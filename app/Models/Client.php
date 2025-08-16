@@ -27,4 +27,14 @@ class Client extends Model
     {
         return $this->belongsTo(Picture::class);
     }
+
+    public static function rules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:clients,email',
+            'phone' => 'nullable|string|max:20',
+            'age' => 'nullable|integer|min:0',
+        ];
+    }
 }

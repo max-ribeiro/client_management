@@ -34,7 +34,7 @@ class ClientTest extends TestCase
 
         $response->assertStatus(201);
     }
-    public function test_should_thow_exception_if_client_address_data_is_invalid(): void
+    public function test_should_not_create_client_if_client_address_data_is_invalid(): void
     {
         $response = $this->post('/api/client', [
             'name' => 'John Doe',
@@ -53,5 +53,34 @@ class ClientTest extends TestCase
             'age' => 30,
         ]);
         $response->assertStatus(500);
+    }
+    public function test_should_fail_if_client_address_or_picture_data_is_not_sent(): void
+    {
+        $response = $this->post('/api/client', [
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'phone' => '1234567890',
+            'address' => [
+                'street' => '123 Main St',
+                'city' => 'Anytown',
+                'state' => 'California',
+                'neighborhood' => 'Downtown',
+                'number' => 456,
+            ],
+            'age' => 30,
+        ]);
+        $response->assertStatus(400);
+
+        $response = $this->post('/api/client', [
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'phone' => '1234567890',
+            'address' => [],
+            'picture' => [
+                'content' => 'jaklsdjasdsasads',
+            ],
+            'age' => 30,
+        ]);
+        $response->assertStatus(400);
     }
 }
