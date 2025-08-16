@@ -45,3 +45,13 @@ Este projeto é uma aplicação desenvolvida em **Laravel** que implementa um **
 ![Project MVP Planning](https://maxribeiro.tech/public/img/client_management_mvp.png)
 
 ## ⚙ Configuração para Executar
+docker:
+./vendor/bin/sail up
+
+migrations:
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan migrate --env=testing 
+
+testes:
+Feature
+./vendor/bin/sail artisan test --testsuite=Feature
