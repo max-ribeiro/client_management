@@ -15,8 +15,7 @@ class AddressService
     }
     public function createAddress(array $data): Address
     {
-        $this->address->fill($data);
-        $address = $this->address->save();
+        $address = $this->address->create($data);
         if (!$address) {
             throw new AddressException('Address could not be created', 500);
         }

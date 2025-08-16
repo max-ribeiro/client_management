@@ -13,17 +13,18 @@ class Client extends Model
         'name',
         'email',
         'phone',
+        'age',
         'address_id',
-        'picture',
+        'picture_id',
     ];
 
-    // public function address()
-    // {
-    //     return $this->belongsTo(Address::class);
-    // }
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
 
-    // public function picture()
-    // {
-    //     return $this->belongsTo(Picture::class);
-    // }
+    public function picture()
+    {
+        return $this->belongsTo(Picture::class);
+    }
 }

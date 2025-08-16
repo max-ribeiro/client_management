@@ -13,11 +13,10 @@ class PictureService
     {
         $this->picture = $picture;
     }
-    public function createPicture(array $data)
+    public function createPicture(array $data): Picture
     {
-        $picture = $this->picture->fill($data);
-        $newPicture = $picture->save();
-        if (!$newPicture) {
+        $picture = $this->picture->create($data);
+        if (!$picture) {
             throw new PictureException('Picture could not be created', 500);
         }
         return $picture;

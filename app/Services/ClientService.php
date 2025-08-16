@@ -19,15 +19,23 @@ class ClientService
         $this->addressService = $addressService;
         $this->pictureService = $pictureService;
     }
-    public function createClient(array $data)
+
+    /**
+     * Create a new client
+     *
+     * @param array $data
+     * @return Client
+     */
+    public function createClient(array $data): Client
     {
         $address = $this->addressService->createAddress($data['address']);
         $picture = $this->pictureService->createPicture($data['picture']);
-        $clientData = array_merge($data, ['address_id' => $address->id, 'picture_id' => $picture->id]);
 
-        $client = $this->client->fill($clientData);
-        $newClient = $client->save();
-        if (!$newClient) {
+        $clientData = array_merge($data, ['address_id' => $address->id, 'picture_id' => $picture->id]);
+        unset($clientData['address'], $clientData['picture']);
+
+        $client = $this->client->create($clientData);
+        if (!$client) {
             throw new ClientException('Client could not be created', 500);
         }
         return $client;
