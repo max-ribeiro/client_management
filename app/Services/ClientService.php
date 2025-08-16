@@ -23,15 +23,27 @@ class ClientService
     /**
      * Create a new client
      *
-     * @param array $data
+     * @param array $data dados do cliente
+     * @throws ClientException
+     * @throws AddressException
+     * @throws PictureException
      * @return Client
      */
     public function createClient(array $data): Client
     {
+        if(empty($data['address'])) {
+            throw new ClientException('Address data required', 400);
+        }
         $address = $this->addressService->createAddress($data['address']);
-        $picture = $this->pictureService->createPicture($data['picture']);
+        $addressId = $address->id;
+        $pictureId = null;
 
-        $clientData = array_merge($data, ['address_id' => $address->id, 'picture_id' => $picture->id]);
+        if(!empty($data['picture'])) {
+            $picture = $this->pictureService->createPicture($data['picture']);
+            $pictureId = $picture->id;
+        }
+
+        $clientData = array_merge($data, ['address_id' => $addressId, 'picture_id' => $pictureId]);
         unset($clientData['address'], $clientData['picture']);
 
         $client = $this->client->create($clientData);

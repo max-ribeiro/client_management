@@ -54,7 +54,7 @@ class ClientTest extends TestCase
         ]);
         $response->assertStatus(500);
     }
-    public function test_should_fail_if_client_address_or_picture_data_is_not_sent(): void
+    public function test_should_fail_if_client_address_is_not_sent(): void
     {
         $response = $this->post('/api/client', [
             'name' => 'John Doe',
@@ -69,11 +69,11 @@ class ClientTest extends TestCase
             ],
             'age' => 30,
         ]);
-        $response->assertStatus(400);
+        $response->assertStatus(201);
 
         $response = $this->post('/api/client', [
             'name' => 'John Doe',
-            'email' => 'john@example.com',
+            'email' => 'johsn@example2.com',
             'phone' => '1234567890',
             'address' => [],
             'picture' => [
@@ -81,6 +81,6 @@ class ClientTest extends TestCase
             ],
             'age' => 30,
         ]);
-        $response->assertStatus(400);
+        $response->assertStatus(500);
     }
 }

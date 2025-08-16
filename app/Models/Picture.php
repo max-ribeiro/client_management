@@ -12,4 +12,9 @@ class Picture extends Model
     protected $fillable = [
         'content'
     ];
+
+    public function clients()
+    {
+        return $this->hasMany(Client::class);
+    }
 }

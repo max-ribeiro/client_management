@@ -33,11 +33,7 @@ class ClientController extends Controller
     {   
         try {
             $params = $request->all();
-            if(empty($params['address']) || empty($params['picture'])) {
-                return response()->json(['message' => 'Address and Picture data are required'], 400);
-            }
-
-            $request->validate(Client::rules());
+            $request->validate($this->client->rules());
 
             $client = $this->service->createClient($params);
             if (!$client) {
