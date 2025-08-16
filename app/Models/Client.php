@@ -17,13 +17,13 @@ class Client extends Model
         'picture',
     ];
 
-    public function address()
-    {
-        return $this->belongsTo(Address::class);
-    }
+    // public function address()
+    // {
+    //     return $this->belongsTo(Address::class);
+    // }
 
-    public function picture()
-    {
-        return $this->belongsTo(Picture::class);
-    }
+    // public function picture()
+    // {
+    //     return $this->belongsTo(Picture::class);
+    // }
 }
