@@ -19,4 +19,9 @@ Route::group([
 });
 
 //Client routes
-Route::apiResource('client', ClientController::class)->middleware('jwt');
+Route::group([
+    'prefix' => 'v1',
+    'middleware' => 'jwt'
+],function () {
+    Route::apiResource('client', ClientController::class);
+});

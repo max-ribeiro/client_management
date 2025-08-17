@@ -55,3 +55,7 @@ migrations:
 testes:
 Feature
 ./vendor/bin/sail artisan test --testsuite=Feature
+
+JWT:
+./vendor/bin/sail php artisan jwt:secret
+
