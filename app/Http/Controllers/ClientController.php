@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Services\ClientService;
+use Illuminate\Database\Eloquent\Collection;
 
 class ClientController extends Controller
 {
@@ -21,7 +22,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = $this->client->all();
+        $clients = $this->service->getClients();
         return response()->json($clients, 200);
     }
 
@@ -51,7 +52,7 @@ class ClientController extends Controller
      */
     public function show(int $id)
     {
-        $client = $this->client->find($id);
+        $client = $this->service->getClients([$id]);
         if (!$client) {
             return response()->json(['message' => 'Client not found'], 404);
         }
@@ -64,20 +65,12 @@ class ClientController extends Controller
     public function update(Request $request, int $id)
     {
         try {
-            $client = $this->client->find($id);
+            $params = $request->all();
+            $client = $this->service->updateClient($id, $params);
             if (!$client) {
                 return response()->json(['message' => 'Client not found'], 404);
             }
-    
-            $client->update([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'phone' => $request->input('phone'),
-                'address_id' => $request->input('address'),
-                'picture_id' => $request->input('picture'),
-                'age' => $request->input('age'),
-            ]);
-    
+
             return response()->json($client, 200);
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -90,13 +83,12 @@ class ClientController extends Controller
      */
     public function destroy(int $id)
     {
-        $client = $this->client->find($id);
-        if (!$client) {
-            return response()->json(['message' => 'Client not found'], 404);
-        }
-
         try {
-            $client->delete();
+            $clientDeleted = $this->service->deleteClient($id);
+            if (!$clientDeleted) {
+                return response()->json(['message' => 'Client not found'], 404);
+            }
+
             return response()->json(['message' => 'Client deleted successfully'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error deleting client.'], 500);

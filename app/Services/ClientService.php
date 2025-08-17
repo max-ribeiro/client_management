@@ -6,6 +6,9 @@ use App\Models\Client;
 use App\Services\AddressService;
 use App\Services\PictureService;
 use App\Errors\ClientException;
+use App\Errors\AddressException;
+use App\Errors\PictureException;
+use Illuminate\Database\Eloquent\Collection;
 
 class ClientService
 {
@@ -53,23 +56,55 @@ class ClientService
         return $client;
     }
 
-    public function updateClient(int $id, array $data)
+    /**
+     * Update an existing client
+     *
+     * @param int $id
+     * @param array $data
+     * @throws ClientException
+     * @return Client
+     */
+    public function updateClient(int $id, array $data): Client
     {
-        // Business logic for updating a client can be added here
+        $client = $this->client->with('address', 'picture')->find($id);
+        if (!$client) {
+            throw new ClientException('Client not found', 404);
+        }
+
+        $client->fill($data);
+        $client->save();
+
+        return $client;
     }
 
-    public function deleteClient(int $id)
+    /**
+     * Delete a client by ID
+     *
+     * @param int $id
+     * @throws ClientException
+     * @return bool
+     */
+    public function deleteClient(int $id): bool
     {
-        // Business logic for deleting a client can be added here
+        $client = $this->client->find($id);
+        if (!$client) {
+            throw new ClientException('Client could not be deleted', 404);
+        }
+        return $client->delete();
     }
 
-    public function getClient(int $id)
+    /**
+     * Retrieve a client by ID or all clients if no ID is provided
+     *
+     * @param array $ids
+     * @return void
+     */
+    public function getClients(array $ids = []): Collection
     {
-        // Business logic for retrieving a client can be added here
-    }
-
-    public function getAllClients()
-    {
-        // Business logic for retrieving all clients can be added here
+        $client = $this->client->with('address', 'picture');
+        if (!empty($ids)) {
+            $client = $client->whereIn('id', $ids);
+        }
+        return $client->get();
     }
 }

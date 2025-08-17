@@ -12,7 +12,6 @@ class ClientTest extends TestCase
 {
     
     use DatabaseTransactions;
-    
     public function test_should_create_new_client_if_valid_data_provided(): void
     {
         $response = $this->post('/api/client', [
@@ -83,4 +82,17 @@ class ClientTest extends TestCase
         ]);
         $response->assertStatus(500);
     }
+
+    public function test_should_return_all_clients(): void
+    {
+        $response = $this->get('/api/client');
+        $response->assertStatus(200);
+    }
+
+    // public function test_should_return_especific_clients(): void
+    // {
+    //     $response = $this->get('/api/client/1');
+    //     $response->assertStatus(200);
+    // }
+        
 }
