@@ -7,7 +7,12 @@
 </template>
 
 <script>
+import { initFlowbite } from 'flowbite'
+
 export default {
-    name: 'App'
+    name: 'App',
+    mounted() {
+        initFlowbite()
+    }
 };
 </script>

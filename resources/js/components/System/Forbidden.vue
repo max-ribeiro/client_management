@@ -8,7 +8,7 @@
 
         <button @click="goBack"
             class="mt-6 px-6 py-3 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 transition">
-            Voltar
+            Logar
         </button>
     </div>
 </template>
@@ -18,7 +18,7 @@ export default {
     name: "Forbidden",
     methods: {
         goBack() {
-            this.$router.back(); // volta para a página anterior
+            this.$router.push('/'); // volta para a página anterior
         },
     },
 };
