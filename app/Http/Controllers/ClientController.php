@@ -20,10 +20,16 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clients = $this->service->getClients();
-        return response()->json($clients, 200);
+        try {
+            $queryParams = $request->query() ?? [];
+
+            $clients = $this->service->getClients([], $queryParams);
+            return response()->json($clients, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error listing clients'], 500);
+        }
     }
 
 
@@ -33,9 +39,9 @@ class ClientController extends Controller
     public function store(Request $request)
     {   
         try {
-            $params = $request->all();
             $request->validate($this->client->rules());
 
+            $params = $request->all();
             $client = $this->service->createClient($params);
             if (!$client) {
                 return response()->json(['message' => 'Client could not be created'], 500);
@@ -43,20 +49,27 @@ class ClientController extends Controller
     
             return response()->json($client, 201);
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Error creating client.'], 500);
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(Request $request, int $id)
     {
-        $client = $this->service->getClients([$id]);
-        if (!$client) {
-            return response()->json(['message' => 'Client not found'], 404);
+        try {
+            $queryParams = $request->query() ?? [];
+
+            $client = $this->service->getClients([$id], $queryParams);
+            if ($client->isEmpty()) {
+                return response()->json(['message' => 'Client not found'], 404);
+            }
+            
+            return response()->json($client->first(), 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error retrieving client.'], 500);
         }
-        return response()->json($client, 200);
     }
 
     /**

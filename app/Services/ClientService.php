@@ -34,9 +34,6 @@ class ClientService
      */
     public function createClient(array $data): Client
     {
-        if(empty($data['address'])) {
-            throw new ClientException('Address data required', 400);
-        }
         $address = $this->addressService->createAddress($data['address']);
         $addressId = $address->id;
         $pictureId = null;
@@ -88,7 +85,7 @@ class ClientService
     {
         $client = $this->client->find($id);
         if (!$client) {
-            throw new ClientException('Client could not be deleted', 404);
+            throw new ClientException('Client not found', 404);
         }
         return $client->delete();
     }
@@ -97,9 +94,9 @@ class ClientService
      * Retrieve a client by ID or all clients if no ID is provided
      *
      * @param array $ids
-     * @return void
+     * @return Collection
      */
-    public function getClients(array $ids = []): Collection
+    public function getClients(array $ids = [], array $queryParams = []): Collection
     {
         $client = $this->client->with('address', 'picture');
         if (!empty($ids)) {
