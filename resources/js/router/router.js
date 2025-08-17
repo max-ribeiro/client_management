@@ -1,12 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../components/Login.vue';
 import Clients from '../components/Client/Clients.vue';
-import Reports from '../components/Reports/Reports.vue';
+import Charts from '../components/Charts/Charts.vue';
+import NotFound from '../components/System/NotFound.vue';
 
 const routes = [
     {path: '/', component: Login},
     {path: '/clients', component: Clients},
-    {path: '/reports', component: Reports}
+    {path: '/charts', component: Charts},
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+
 ];
 
 const router = createRouter({

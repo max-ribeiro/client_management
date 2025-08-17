@@ -17,6 +17,8 @@
                         <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center">
                         <span class="mr-1">+</span> Adicionar contato
                         </button>
+                        <ChartBarIcon @click="goToCharts">
+                        </ChartBarIcon>
                     </div>
                 </div>
                 
@@ -82,8 +84,17 @@
     </div>
 </template>
 <script>
+import { ChartBarIcon } from '@heroicons/vue/16/solid';
 export default {
     name: 'Login',
+    components: {
+        ChartBarIcon,
+    },
+    methods: {
+        goToCharts() {
+            this.$router.push('/charts');
+        }
+    }
 };
 </script>
 <style></style>
