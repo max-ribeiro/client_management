@@ -73,7 +73,6 @@ class ClientController extends Controller
 
             return response()->json($client, 200);
         } catch (\Exception $e) {
-            dd($e->getMessage());
             return response()->json(['message' => 'Error updating client.'], 500);
         }
     }
