@@ -12,11 +12,11 @@ Route::group([
     Route::post('login', [JWTAuthController::class, 'login']);
     Route::post('register', [JWTAuthController::class, 'register']);
     Route::middleware('jwt')->group(function () {
-        Route::post('logout', [JWTAuthController::class, 'logout']);
-        Route::post('refresh', [JWTAuthController::class, 'refresh']);
-        Route::post('me', [JWTAuthController::class, 'me']);
+        Route::get('logout', [JWTAuthController::class, 'logout']);
+        Route::get('refresh', [JWTAuthController::class, 'refresh']);
+        Route::get('me', [JWTAuthController::class, 'me']);
     });
 });
 
 //Client routes
-Route::apiResource('client', ClientController::class);
+Route::apiResource('client', ClientController::class)->middleware('jwt');

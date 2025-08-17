@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Services\ClientService;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 
 class ClientController extends Controller
 {
@@ -20,7 +20,7 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         try {
             $queryParams = $request->query() ?? [];
@@ -36,8 +36,8 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {   
+    public function store(Request $request): JsonResponse
+    {
         try {
             $request->validate($this->client->rules());
 
@@ -56,7 +56,7 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, int $id)
+    public function show(Request $request, int $id): JsonResponse
     {
         try {
             $queryParams = $request->query() ?? [];
@@ -75,7 +75,7 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, int $id): JsonResponse
     {
         try {
             $params = $request->all();
@@ -93,7 +93,7 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResponse
     {
         try {
             $clientDeleted = $this->service->deleteClient($id);
