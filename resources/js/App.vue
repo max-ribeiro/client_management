@@ -3,10 +3,11 @@
         <div :key="route.name">
             <Component :is="Component" />
         </div>
-    </router-view></template>
+    </router-view>
+</template>
 
 <script>
 export default {
-    name: 'App',
+    name: 'App'
 };
 </script>

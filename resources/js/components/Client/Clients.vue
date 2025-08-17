@@ -21,79 +21,48 @@
                         </ChartBarIcon>
                     </div>
                 </div>
-                
-
-                <!-- Table -->
-                <div class="overflow-hidden border rounded-lg">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Nome ↓</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Email</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Telefone</th>
-                                <th class="px-6 py-3 text-right text-sm font-medium text-gray-600">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200">
-                            <!-- Linha 1 -->
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-3 flex items-center space-x-3">
-                                    <div
-                                        class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 font-semibold">
-                                        HG
-                                    </div>
-                                    <span class="text-gray-800">Henrique Gomes Santana</span>
-                                </td>
-                                <td class="px-6 py-3 text-gray-600">henrique.gomes@huggy.io</td>
-                                <td class="px-6 py-3 text-gray-600">75992503245</td>
-                                <td class="px-6 py-3 text-right text-gray-500">—</td>
-                            </tr>
-
-                            <!-- Linha 2 -->
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-3 flex items-center space-x-3">
-                                    <img src="https://i.pravatar.cc/40" class="w-10 h-10 rounded-full" alt="">
-                                    <span class="text-gray-800">Rafael Macedo</span>
-                                </td>
-                                <td class="px-6 py-3 text-gray-600">rafael.macedo@huggy.io</td>
-                                <td class="px-6 py-3 text-gray-600">-</td>
-                                <td class="px-6 py-3 text-right space-x-2">
-                                    <button class="text-gray-500 hover:text-indigo-600">✏️</button>
-                                    <button class="text-gray-500 hover:text-red-600">🗑️</button>
-                                </td>
-                            </tr>
-
-                            <!-- Linha 3 -->
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-3 flex items-center space-x-3">
-                                    <div
-                                        class="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100 text-purple-600 font-semibold">
-                                        PG
-                                    </div>
-                                    <span class="text-gray-800">Philippe Gomes Santana</span>
-                                </td>
-                                <td class="px-6 py-3 text-gray-600">-</td>
-                                <td class="px-6 py-3 text-gray-600">75992514121</td>
-                                <td class="px-6 py-3 text-right text-gray-500">—</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <client-list v-if="clients.length" :clients="clients"/>
             </div>
         </div>
     </div>
 </template>
 <script>
 import { ChartBarIcon } from '@heroicons/vue/16/solid';
+import ClientList from './ClientList.vue';
 export default {
-    name: 'Login',
+    name: 'Clients',
+    data() {
+        return {
+            clients: []
+        }
+    },
     components: {
         ChartBarIcon,
+        ClientList
     },
     methods: {
         goToCharts() {
             this.$router.push('/charts');
+        },
+        async fetchClients() {
+            const token = localStorage.getItem('token');
+            try {
+                const response = await axios.get('/api/v1/client', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json'
+                    },
+                });
+
+                this.clients = response.data;
+            } catch (error) {
+                console.error('Error fetching clients:', error);
+            }
         }
+    },
+    mounted() {
+        // Lógica a ser executada quando o componente é montado
+        this.fetchClients();
     }
 };
 </script>
