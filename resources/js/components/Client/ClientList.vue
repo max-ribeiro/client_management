@@ -22,7 +22,9 @@
                     <td class="px-6 py-3 text-gray-600">{{ client.phone }}</td>
                     <td class="px-6 py-3 text-gray-500">
                         <div class="flex flex-row items-center justify-end gap-2">
-                            <pencil-icon class="w-4 h-4 cursor-pointer" data-modal-target="delete-modal" data-modal-toggle="delete-modal" @click="selectedClientID = client.id" :id="client.id"/>
+                            <a data-modal-target="edit-modal" data-modal-toggle="edit-modal">
+                                <pencil-icon class="w-4 h-4 cursor-pointer" @click="selectedClientID = client.id" :id="client.id"/>
+                            </a>    
                             <a data-modal-target="delete-modal" data-modal-toggle="delete-modal" data-modal-show="delete-modal" @click="selectedClientID = client.id"> 
                                 <trash-icon class="w-4 h-4 cursor-pointer" :id="client.id"/>
                             </a>
@@ -32,12 +34,15 @@
             </tbody>
         </table>
         <delete-modal :selected-client="selectedClientID" @refresh="$emit('refresh')"></delete-modal>
+        <edit-modal :selected-client="selectedClient" @refresh="$emit('refresh')"></edit-modal>
     </div>
 </template>
 <script>
 import { PencilIcon, TrashIcon } from '@heroicons/vue/16/solid';
 import { initFlowbite } from 'flowbite';
 import DeleteModal from './DeleteModal.vue';
+import EditModal from './EditModal.vue';
+
 export default {
     name: 'ClientList',
     data() {
@@ -48,12 +53,25 @@ export default {
     components: {
         PencilIcon,
         TrashIcon,
-        DeleteModal
+        DeleteModal,
+        EditModal
     },
     props: {
         clients: {
             type: Array,
             default: () => []
+        }
+    },
+    computed: {
+        selectedClient() {
+            if(!this.selectedClientID) {
+                return {};
+            }
+            const client = this.clients.filter(client => {
+                return client.id == this.selectedClientID;
+            }, this.selectedClientID);
+
+            return client.shift();
         }
     },
     mounted() {
