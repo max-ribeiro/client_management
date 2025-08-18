@@ -78,7 +78,9 @@ class ClientController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         try {
-            $params = $request->all();
+            $request->validate($this->client->rules($id));
+
+            $params = $request->json()->all();
             $client = $this->service->updateClient($id, $params);
             if (!$client) {
                 return response()->json(['message' => 'Client not found'], 404);

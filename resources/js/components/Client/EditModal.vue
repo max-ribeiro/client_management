@@ -30,14 +30,14 @@
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
                             <input v-model="form.name" type="text" id="name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder="John Doe" required />
+                                :placeholder="selectedClient.name || 'Nome'" required />
                         </div>
 
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                             <input v-model="form.email" type="email" id="email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder="john@example.com" required />
+                                :placeholder="selectedClient.email || 'Email'" required />
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
@@ -45,13 +45,13 @@
                                 <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Phone</label>
                                 <input v-model="form.phone" type="text" id="phone"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    placeholder="1234567890" />
+                                    :placeholder="selectedClient.phone || 'Email'"  />
                             </div>
                             <div>
                                 <label for="age" class="block mb-2 text-sm font-medium text-gray-900">Age</label>
                                 <input v-model="form.age" type="number" id="age"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    placeholder="30" />
+                                    :placeholder="selectedClient.age || 'Email'" />
                             </div>
                         </div>
 
@@ -62,32 +62,32 @@
                                 <label for="street" class="block mb-2 text-sm font-medium text-gray-900">Street</label>
                                 <input v-model="form.address.street" type="text" id="street"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    placeholder="1234" />
+                                    :placeholder="selectedClient.address?.street || 'Rua'" />
                             </div>
                             <div>
                                 <label for="number" class="block mb-2 text-sm font-medium text-gray-900">Number</label>
                                 <input v-model="form.address.number" type="text" id="number"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    placeholder="Optional" />
+                                    :placeholder="selectedClient.address?.number || 'Numero'" />
                             </div>
                             <div>
                                 <label for="city" class="block mb-2 text-sm font-medium text-gray-900">City</label>
                                 <input v-model="form.address.city" type="text" id="city"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    placeholder="City" />
+                                    :placeholder="selectedClient.address?.city || 'Cidade'" />
                             </div>
                             <div>
                                 <label for="state" class="block mb-2 text-sm font-medium text-gray-900">State</label>
                                 <input v-model="form.address.state" type="text" id="state"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    placeholder="California" />
+                                    :placeholder="selectedClient.address?.state || 'Estado'" />
                             </div>
                             <div class="col-span-2">
                                 <label for="neighborhood"
                                     class="block mb-2 text-sm font-medium text-gray-900">Neighborhood</label>
                                 <input v-model="form.address.neighborhood" type="text" id="neighborhood"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    placeholder="Downtown" />
+                                    :placeholder="selectedClient.address?.neighborhood || 'Bairro'" />
                             </div>
                         </div>
 
@@ -109,7 +109,7 @@
                         class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
                         v-text="leftButtonText" @click="$emit('cancelEvent')"> </button> &nbsp;
                     <button data-modal-hide="edit-modal" type="button"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        class="text-white btn btn-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                         v-text="rightButtonText" @click="onSubmit"> </button>
                 </div>
             </div>
@@ -118,6 +118,8 @@
 </template>
 
 <script>
+import notify from '../../Utils/Notify';
+
 export default {
     name: 'EditModal',
     data() {
@@ -194,9 +196,10 @@ export default {
                     Accept: 'application/json'
                 }
             }).then(() => {
+                notify.success('Dados atualizados com sucesso!');
                 this.$emit('refresh');
-                alert('Updated');
             }).catch(error => {
+                notify.error('Desculpe, houve algum erro ao atualizar os dados.')
                 console.error(error);
             });
         }

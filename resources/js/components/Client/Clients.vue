@@ -30,6 +30,7 @@
 import { ChartBarIcon } from '@heroicons/vue/16/solid';
 import ClientList from './ClientList.vue';
 import FormModal from './FormModal.vue';
+import notify from '../../Utils/Notify';
 
 export default {
     name: 'Clients',
@@ -59,6 +60,7 @@ export default {
 
                 this.clients = response.data;
             } catch (error) {
+                notify.error('Erro ao trazer dados de clientes.')
                 console.error('Error fetching clients:', error);
                     if(403 === error.status) {
                         localStorage.removeItem('token');

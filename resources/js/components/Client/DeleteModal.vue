@@ -28,15 +28,19 @@
                         
                         <!-- Cancel button -->
                         <button data-modal-hide="delete-modal" type="button"
-                            class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none 
-                            bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 
-                            focus:z-10 focus:ring-4 focus:ring-gray-100">
+                            class="px-4 py-2 rounded-lg bg-transparent 
+                            text-gray-500 hover:text-gray-700 hover:bg-gray-50 
+                            focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2
+                            disabled:opacity-50 disabled:pointer-events-none"
+                        >
                             Cancelar
                         </button>
                         <!-- Confirm button -->
                         <button data-modal-hide="delete-modal" type="button"
-                            class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none 
-                            focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                            class="px-4 py-2 rounded-lg bg-transparent text-red-600 
+                                    hover:text-red-800 hover:bg-red-100 
+                                    focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2
+                                    disabled:opacity-50"
                             @click="deleteClient"
                         >
                             Excluir
@@ -48,6 +52,8 @@
     </div>
 </template>
 <script>
+import notify from '../../Utils/Notify';
+
 export default {
     name: 'DeleteModal',
     props: {
@@ -64,10 +70,10 @@ export default {
                     Accept: 'application/json'
                 }
             }).then(response => {
-                alert('Removido com sucesso');
+                notify.success('Removido com sucesso');
                 this.$emit('refresh');
             }).catch(error => {
-                alert('Erro ao remover cliente');
+                notify.error('Erro ao remover cliente');
                 console.error("Erro ao enviar dados:", error);
                 if(403 === error.status) {
                     localStorage.removeItem('token');
