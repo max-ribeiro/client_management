@@ -64,14 +64,46 @@ class ClientService
     public function updateClient(int $id, array $data): Client
     {
         $client = $this->client->with('address', 'picture')->find($id);
+
         if (!$client) {
             throw new ClientException('Client not found', 404);
         }
 
+        // --- Handle address ---
+        if (!empty($data['address'])) {
+            if ($client->address_id) {
+                // Update existing address
+                $address = $this->addressService->updateAddress($client->address->id, $data['address']);
+                $addressId = $client->address->id;
+            } else {
+                // Create new address
+                $address = $this->addressService->createAddress($data['address']);
+                $addressId = $address->id;
+            }
+            $data['address_id'] = $addressId;
+        }
+
+        // --- Handle picture ---
+        if (!empty($data['picture'])) {
+            if ($client->picture_id) {
+                // Update existing picture
+                $this->pictureService->updatePicture($client->picture->id, $data['picture']);
+                $pictureId = $client->picture->id;
+            } else {
+                // Create new picture
+                $picture = $this->pictureService->createPicture($data['picture']);
+                $pictureId = $picture->id;
+            }
+            $data['picture_id'] = $pictureId;
+        }
+
+        // Remove nested objects before filling client
+        unset($data['address'], $data['picture']);
+
         $client->fill($data);
         $client->save();
 
-        return $client;
+        return $client->fresh(['address', 'picture']);
     }
 
     /**

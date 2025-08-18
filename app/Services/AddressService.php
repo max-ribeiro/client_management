@@ -22,9 +22,16 @@ class AddressService
         return $address;
     }
 
-    public function updateAddress(int $id, array $data)
+    public function updateAddress(int $id, array $data): Address
     {
-        // Business logic for updating an address can be added here
+        $address = $this->address->find($id);
+        if(!$address) {
+            throw new AddressException('Address not found.', 404);
+        }
+
+        $address->fill($data);
+        $address->save();
+        return $address;
     }
 
     public function deleteAddress(int $id)
