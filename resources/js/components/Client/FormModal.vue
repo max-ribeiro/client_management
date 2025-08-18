@@ -124,9 +124,15 @@ export default {
                     Accept: 'application/json'
                 }
             }).then(response => {
-                console.log("Resposta do servidor:", response.data);
+                alert('Salvo com sucesso');
+                this.$emit('refresh');
             }).catch(error => {
+                alert('Erro ao salvar cliente');
                 console.error("Erro ao enviar dados:", error);
+                if(403 === error.status) {
+                    localStorage.removeItem('token');
+                    this.$router.push('/');
+                }
             });
         }
     }

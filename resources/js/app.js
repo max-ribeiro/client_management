@@ -5,10 +5,14 @@ import axios from 'axios';
 
 import App from "./App.vue";
 
+const app = createApp(App);
+
 const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
 if (token) {
     axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
 }
 
-createApp(App).use(router).mount("#app");
+app
+    .use(router)
+    .mount("#app");

@@ -1,6 +1,6 @@
 <template>
     <div class="bg-gray-100 min-h-screen p-6" id="clients">
-        <form-modal />
+        <form-modal @refresh="fetchClients" />
         <!-- Container alinhado -->
         <div class="max-w-5xl mx-auto">
             <!-- Título -->
@@ -17,11 +17,11 @@
                         <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center" data-modal-target="default-modal" data-modal-toggle="default-modal">
                         <span class="mr-1">+</span> Adicionar contato
                         </button>
-                        <ChartBarIcon @click="goToCharts">
+                        <ChartBarIcon @click="goToCharts" class="max-w-8">
                         </ChartBarIcon>
                     </div>
                 </div>
-                <client-list v-if="clients.length" :clients="clients"/>
+                <client-list v-if="clients.length" :clients="clients" @refresh="fetchClients"/>
             </div>
         </div>
     </div>
@@ -30,6 +30,7 @@
 import { ChartBarIcon } from '@heroicons/vue/16/solid';
 import ClientList from './ClientList.vue';
 import FormModal from './FormModal.vue';
+
 export default {
     name: 'Clients',
     data() {
@@ -59,6 +60,10 @@ export default {
                 this.clients = response.data;
             } catch (error) {
                 console.error('Error fetching clients:', error);
+                    if(403 === error.status) {
+                        localStorage.removeItem('token');
+                        this.$router.push('/');
+                    }
             }
         }
     },

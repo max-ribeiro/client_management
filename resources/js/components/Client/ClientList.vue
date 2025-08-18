@@ -20,20 +20,44 @@
                     </td>
                     <td class="px-6 py-3 text-gray-600">{{ client.email }}</td>
                     <td class="px-6 py-3 text-gray-600">{{ client.phone }}</td>
-                    <td class="px-6 py-3 text-right text-gray-500">—</td>
+                    <td class="px-6 py-3 text-gray-500">
+                        <div class="flex flex-row items-center justify-end gap-2">
+                            <pencil-icon class="w-4 h-4 cursor-pointer" data-modal-target="delete-modal" data-modal-toggle="delete-modal" @click="selectedClientID = client.id" :id="client.id"/>
+                            <a data-modal-target="delete-modal" data-modal-toggle="delete-modal" data-modal-show="delete-modal" @click="selectedClientID = client.id"> 
+                                <trash-icon class="w-4 h-4 cursor-pointer" :id="client.id"/>
+                            </a>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
+        <delete-modal :selected-client="selectedClientID" @refresh="$emit('refresh')"></delete-modal>
     </div>
 </template>
 <script>
+import { PencilIcon, TrashIcon } from '@heroicons/vue/16/solid';
+import { initFlowbite } from 'flowbite';
+import DeleteModal from './DeleteModal.vue';
 export default {
     name: 'ClientList',
+    data() {
+        return {
+            selectedClientID: null
+        }
+    },
+    components: {
+        PencilIcon,
+        TrashIcon,
+        DeleteModal
+    },
     props: {
         clients: {
             type: Array,
             default: () => []
         }
     },
+    mounted() {
+        initFlowbite();
+    }
 };
 </script>
