@@ -4,9 +4,11 @@ import Clients from '../components/Client/Clients.vue';
 import Charts from '../components/Charts/Charts.vue';
 import NotFound from '../components/System/NotFound.vue';
 import Forbidden from '../components/System/Forbidden.vue';
+import Logout from '../components/Logout.vue';
 
 const routes = [
     { path: '/', component: Login },
+    { path: '/logout', component: Logout },
     { path: '/clients', component: Clients, meta: { requiresAuth: true } },
     { path: '/charts', component: Charts, meta: { requiresAuth: true } },
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
