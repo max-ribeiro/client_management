@@ -85,4 +85,8 @@ return [
      * Server URL
      */
     'url' => env('WEBHOOK_SERVER_URL'),
+
+    'secret' => env('WEBHOOK_SERVER_SECRET'),
+
+
 ];
