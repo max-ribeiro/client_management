@@ -23,7 +23,7 @@ class VOIPService {
     public function call(string $to): string
     {
         $call = $this->twilio->calls->create(
-            '5512996110767',
+            $to,
             env('TWILIO_PHONE_NUMBER'),
             ["url" => "http://demo.twilio.com/docs/voice.xml"]
         );

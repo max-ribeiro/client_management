@@ -21,10 +21,12 @@ class VOIPTest extends TestCase
         $token = JWTAuth::fromUser($user);
 
         $mock = $this->createMock(ClientService::class);
-        $clientData = Client::factory(1)->make();
+        $clientCollection = Client::factory(1)->make();
+        $client = $clientCollection->first();
+        $client->phone = getenv('TWILIO_PHONE_NUMBER');//Garantindo que o numero do usuario esta na whitelist
         
         $mock->method('getClient')
-            ->willReturn($clientData->first());
+            ->willReturn($client);
         
         $this->app->instance(ClientService::class, $mock);
 
