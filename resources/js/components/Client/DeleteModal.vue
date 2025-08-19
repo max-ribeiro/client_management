@@ -60,7 +60,7 @@ export default {
             const token = localStorage.getItem('token');
 
             // Aqui você pode fazer um POST com axios ou fetch
-            axios.delete(`/api/v1/client/${this.selectedClient}`, {
+            axios.delete(`/api/v1/clients/${this.selectedClient}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'

@@ -119,7 +119,7 @@ export default {
             const token = localStorage.getItem('token');
 
             // Aqui você pode fazer um POST com axios ou fetch
-            axios.post('/api/v1/client', payload, {
+            axios.post('/api/v1/clients', payload, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'

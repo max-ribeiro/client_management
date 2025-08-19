@@ -5,17 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Services\ClientService;
+use App\Services\Scheduler\TaskSchedulerService;
+use App\Services\WebhookService;
 use Illuminate\Http\JsonResponse;
 
 class ClientController extends Controller
 {
     public Client $client;
     private ClientService $service;
+    private WebhookService $webhookService;
+    private TaskSchedulerService $scheduler;
 
-    public function __construct(Client $client, ClientService $service)
+    public function __construct(Client $client, ClientService $service, WebhookService $webhookService, TaskSchedulerService $scheduler)
     {
         $this->client = $client;
         $this->service = $service;
+        $this->webhookService = $webhookService;
+        $this->scheduler = $scheduler;
     }
     /**
      * Display a listing of the resource.
@@ -37,7 +43,7 @@ class ClientController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request): JsonResponse
-    {
+    {   
         try {
             $request->validate($this->client->rules());
 
@@ -46,10 +52,12 @@ class ClientController extends Controller
             if (!$client) {
                 return response()->json(['message' => 'Client could not be created'], 500);
             }
-    
+
+            $this->scheduler->scheduleWelcomeEmail($client);
+            $this->webhookService->send($client->toArray());
             return response()->json($client, 201);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error creating client.'], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
@@ -68,7 +76,7 @@ class ClientController extends Controller
             
             return response()->json($client->first(), 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error retrieving client.'], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
@@ -86,9 +94,10 @@ class ClientController extends Controller
                 return response()->json(['message' => 'Client not found'], 404);
             }
 
+            $this->webhookService->send($client->toArray());
             return response()->json($client, 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error updating client.'], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
@@ -105,7 +114,7 @@ class ClientController extends Controller
 
             return response()->json(['message' => 'Client deleted successfully'], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error deleting client.'], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 }
