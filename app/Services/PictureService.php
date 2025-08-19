@@ -24,7 +24,14 @@ class PictureService
 
     public function updatePicture(int $id, array $data)
     {
-        // Business logic for updating a picture can be added here
+        $picture = $this->picture->find($id);
+        if(!$picture) {
+            throw new PictureException('Picture not found.', 404);
+        }
+
+        $picture->fill($data);
+        $picture->save();
+        return $picture;
     }
 
     public function deletePicture(int $id)

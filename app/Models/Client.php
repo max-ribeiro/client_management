@@ -28,26 +28,32 @@ class Client extends Model
         return $this->belongsTo(Picture::class);
     }
 
-    public static function rules()
+    public static function rules($id = null)
     {
+        $isUpdate = !is_null($id);
+
         return [
-            // Client (objeto principal)
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:clients,email',
-            'phone' => 'nullable|string|max:20',
-            'age' => 'nullable|integer|min:0',
+            // Client
+            'name'  => ($isUpdate ? 'sometimes' : 'required') . '|string|max:255',
+            'email' => ($isUpdate ? 'sometimes' : 'required') . '|email|max:255|unique:clients,email' . ($id ? ',' . $id : ''),
+            'phone' => 'sometimes|nullable|string|max:20',
+            'age'   => 'sometimes|nullable|integer|min:0',
 
-             // Address (objeto obrigatório)
-            'address' => 'required|array',
-            'address.street' => 'required|string|max:255',
-            'address.city' => 'required|string|max:255',
-            'address.state' => 'required|string|max:255',
-            'address.neighborhood' => 'nullable|string|max:255',
-            'address.number' => 'required|integer',
+            // Address
+            'address' => $isUpdate ? 'sometimes|array' : 'required|array',
+            'address.street' => ($isUpdate ? 'sometimes' : 'required') . '|string|max:255',
+            'address.city'   => ($isUpdate ? 'sometimes' : 'required') . '|string|max:255',
+            'address.state'  => ($isUpdate ? 'sometimes' : 'required') . '|string|max:255',
+            'address.neighborhood' => 'sometimes|nullable|string|max:255',
+            'address.number' => ($isUpdate ? 'sometimes' : 'required') . '|string|max:20',
 
-            // Picture (objeto opcional)
-            'picture' => 'nullable|array',
-            'picture.content' => 'required_with:picture|string',
+            // Picture (opcional em ambos, mas se vier precisa ser válido)
+            'picture' => [
+                'sometimes',
+                'nullable',
+                'string',
+                'regex:/^([A-Za-z0-9+\/=]+)$/'
+            ],
         ];
     }
 }

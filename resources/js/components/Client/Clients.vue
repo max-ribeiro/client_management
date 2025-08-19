@@ -1,0 +1,91 @@
+<template>
+    <div class="bg-gray-100 min-h-screen p-6" id="clients">
+        <form-modal @refresh="fetchClients" />
+        <!-- Container alinhado -->
+        <div class="max-w-5xl mx-auto">
+            <!-- Título -->
+            <h1 class="text-xl font-semibold text-gray-800 mb-4">Contatos</h1>
+            <!-- Card -->
+            <div class="bg-white rounded-xl shadow p-6">
+                <!-- Search -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center w-1/3">
+                        <label for="default-search" class="sr-only">Search</label>
+                        <div class="relative w-80 h-9">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                </svg>
+                            </div>
+                            <input type="search" id="default-search" placeholder="Search..." 
+                                class="block w-full h-full ps-10 text-sm text-gray-900 border border-[#757575] rounded-lg bg-[#F8F8F8] focus:ring-blue-500 focus:border-blue-500"
+                            />
+                        </div>
+
+
+                    </div>
+                    <div class="flex space-x-2">
+                        <base-button :icon="true" data-modal-target="default-modal" data-modal-toggle="default-modal">
+                            <span class="mr-1">+</span> Adicionar contato
+                        </base-button>
+                        <report-icon @click="goToCharts" class="max-w-8">
+                        </report-icon>
+                    </div>
+                </div>
+                <client-list v-if="clients.length" :clients="clients" @refresh="fetchClients"/>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import ClientList from './ClientList.vue';
+import FormModal from './FormModal.vue';
+import notify from '../../Utils/Notify';
+import ReportIcon from '../../../icons/report.svg?component'
+import BaseButton from '../UI/Buttons/BaseButton.vue';
+
+export default {
+    name: 'Clients',
+    data() {
+        return {
+            clients: []
+        }
+    },
+    components: {
+        ClientList,
+        FormModal,
+        ReportIcon,
+        BaseButton
+    },
+    methods: {
+        goToCharts() {
+            this.$router.push('/charts');
+        },
+        async fetchClients() {
+            const token = localStorage.getItem('token');
+            try {
+                const response = await axios.get('/api/v1/client', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json'
+                    },
+                });
+
+                this.clients = response.data;
+            } catch (error) {
+                notify.error('Erro ao trazer dados de clientes.')
+                console.error('Error fetching clients:', error);
+                    if(403 === error.status) {
+                        localStorage.removeItem('token');
+                        this.$router.push('/');
+                    }
+            }
+        }
+    },
+    mounted() {
+        // Lógica a ser executada quando o componente é montado
+        this.fetchClients();
+    }
+};
+</script>
+<style></style>
