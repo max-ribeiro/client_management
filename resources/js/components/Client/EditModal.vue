@@ -193,11 +193,9 @@ export default {
 
             buildDiff(this.form, this.selectedClient, payload);
 
-            console.log("Payload final:", payload);
-
             const token = localStorage.getItem('token');
 
-            axios.patch(`/api/v1/client/${this.selectedClient.id}`, payload, {
+            axios.patch(`/api/v1/clients/${this.selectedClient.id}`, payload, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'

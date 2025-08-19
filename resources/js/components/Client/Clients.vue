@@ -64,7 +64,7 @@ export default {
         async fetchClients() {
             const token = localStorage.getItem('token');
             try {
-                const response = await axios.get('/api/v1/client', {
+                const response = await axios.get('/api/v1/clients', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         Accept: 'application/json'

@@ -76,7 +76,7 @@ class ClientController extends Controller
             
             return response()->json($client->first(), 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error retrieving client.'], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
@@ -114,7 +114,7 @@ class ClientController extends Controller
 
             return response()->json(['message' => 'Client deleted successfully'], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error deleting client.'], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 }

@@ -24,7 +24,7 @@ class ClientTest extends TestCase
      */
     public function test_should_return_unauthorized_if_token_not_sent(): void
     {
-        $response = $this->get('/api/v1/client');
+        $response = $this->get('/api/v1/clients');
 
         $response->assertStatus(403);
     }
@@ -44,7 +44,7 @@ class ClientTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => "Bearer {$token}"
         ])
-        ->postJson('/api/v1/client', $payload);
+        ->postJson('/api/v1/clients', $payload);
         
         $response->assertStatus(201);
     }
@@ -64,7 +64,7 @@ class ClientTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => "Bearer {$token}"
         ])
-        ->postJson('/api/v1/client', $payload);
+        ->postJson('/api/v1/clients', $payload);
         
         $response->assertStatus(500);
     }   
