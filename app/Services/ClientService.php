@@ -114,7 +114,7 @@ class ClientService
     }
 
     /**
-     * Retrieve a client by ID or all clients if no ID is provided
+     * Retrieve a clients by ID or all clients if no ID is provided
      *
      * @param array $ids
      * @return Collection
@@ -128,6 +128,12 @@ class ClientService
         return $clients->get();
     }
 
+    /**
+     * Retrieve a client by ID
+     *
+     * @param array $ids
+     * @return Collection
+    */
     public function getClient(int $id): Client {
         $clientCollection = $this->getClients([$id]);
         if(empty($clientCollection)) {
