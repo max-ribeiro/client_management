@@ -11,6 +11,7 @@
         "laravel/tinker": "^2.10.1",
         "laravel/ui": "*",
         "spatie/laravel-webhook-server": "^3.8",
+        "twilio/sdk": "^8.7",
         "tymon/jwt-auth": "^2.2"
     },
     "require-dev": {

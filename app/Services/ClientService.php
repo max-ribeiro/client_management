@@ -109,10 +109,7 @@ class ClientService
      */
     public function deleteClient(int $id): bool
     {
-        $client = $this->client->find($id);
-        if (!$client) {
-            throw new ClientException('Client not found', 404);
-        }
+        $client = $this->getClient($id);
         return $client->delete();
     }
 
@@ -122,12 +119,20 @@ class ClientService
      * @param array $ids
      * @return Collection
      */
-    public function getClients(array $ids = [], array $queryParams = []): Collection
+    public function getClients(array $ids = []): Collection
     {
-        $client = $this->client->with('address', 'picture');
+        $clients = $this->client->with('address', 'picture');
         if (!empty($ids)) {
-            $client = $client->whereIn('id', $ids);
+            $clients = $clients->whereIn('id', $ids);
         }
-        return $client->get();
+        return $clients->get();
+    }
+
+    public function getClient(int $id): Client {
+        $clientCollection = $this->getClients([$id]);
+        if(empty($clientCollection)) {
+            throw new ClientException('Client not found', 404);
+        }
+        return $clientCollection->first();
     }
 }
