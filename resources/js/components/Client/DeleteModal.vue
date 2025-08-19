@@ -27,24 +27,16 @@
                     <div class="flex justify-end gap-3">
                         
                         <!-- Cancel button -->
-                        <button data-modal-hide="delete-modal" type="button"
-                            class="px-4 py-2 rounded-lg bg-transparent 
-                            text-gray-500 hover:text-gray-700 hover:bg-gray-50 
-                            focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2
-                            disabled:opacity-50 disabled:pointer-events-none"
+                        <base-button data-modal-hide="delete-modal" type="button" variant="secondary"
                         >
                             Cancelar
-                        </button>
+                        </base-button>
                         <!-- Confirm button -->
-                        <button data-modal-hide="delete-modal" type="button"
-                            class="px-4 py-2 rounded-lg bg-transparent text-red-600 
-                                    hover:text-red-800 hover:bg-red-100 
-                                    focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2
-                                    disabled:opacity-50"
+                        <base-button data-modal-hide="delete-modal" type="button" variant="danger"
                             @click="deleteClient"
                         >
                             Excluir
-                        </button>
+                        </base-button>
                     </div>
                 </div>
             </div>
@@ -53,9 +45,13 @@
 </template>
 <script>
 import notify from '../../Utils/Notify';
+import BaseButton from '../UI/Buttons/BaseButton.vue';
 
 export default {
     name: 'DeleteModal',
+    components: {
+        BaseButton
+    },
     props: {
         selectedClient: null
     },

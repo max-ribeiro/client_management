@@ -23,10 +23,10 @@
                     <td class="px-6 py-3 text-gray-500">
                         <div class="flex flex-row items-center justify-end gap-2">
                             <a data-modal-target="edit-modal" data-modal-toggle="edit-modal">
-                                <pencil-icon class="w-4 h-4 cursor-pointer" @click="selectedClientID = client.id" :id="client.id"/>
+                                <edit-icon class="w-4 h-4 cursor-pointer" @click="selectedClientID = client.id" :id="client.id"/>
                             </a>    
                             <a data-modal-target="delete-modal" data-modal-toggle="delete-modal" data-modal-show="delete-modal" @click="selectedClientID = client.id"> 
-                                <trash-icon class="w-4 h-4 cursor-pointer" :id="client.id"/>
+                                <delete-icon class="w-4 h-4 cursor-pointer" :id="client.id"/>
                             </a>
                         </div>
                     </td>
@@ -39,7 +39,8 @@
     </div>
 </template>
 <script>
-import { PencilIcon, TrashIcon } from '@heroicons/vue/16/solid';
+import EditIcon from '../../../icons/edit.svg?component'
+import DeleteIcon from '../../../icons/delete.svg?component'
 import { initFlowbite } from 'flowbite';
 import DeleteModal from './DeleteModal.vue';
 import EditModal from './EditModal.vue';
@@ -53,8 +54,8 @@ export default {
         }
     },
     components: {
-        PencilIcon,
-        TrashIcon,
+        EditIcon,
+        DeleteIcon,
         DeleteModal,
         EditModal,
         InfoModal

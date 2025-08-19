@@ -14,11 +14,11 @@
                         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                     </div>
                     <div class="flex space-x-2">
-                        <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center" data-modal-target="default-modal" data-modal-toggle="default-modal">
-                        <span class="mr-1">+</span> Adicionar contato
-                        </button>
-                        <ChartBarIcon @click="goToCharts" class="max-w-8">
-                        </ChartBarIcon>
+                        <base-button :icon="true" data-modal-target="default-modal" data-modal-toggle="default-modal">
+                            <span class="mr-1">+</span> Adicionar contato
+                        </base-button>
+                        <ReportIcon @click="goToCharts" class="max-w-8">
+                        </ReportIcon>
                     </div>
                 </div>
                 <client-list v-if="clients.length" :clients="clients" @refresh="fetchClients"/>
@@ -27,10 +27,11 @@
     </div>
 </template>
 <script>
-import { ChartBarIcon } from '@heroicons/vue/16/solid';
 import ClientList from './ClientList.vue';
 import FormModal from './FormModal.vue';
 import notify from '../../Utils/Notify';
+import ReportIcon from '../../../icons/report.svg?component'
+import BaseButton from '../UI/Buttons/BaseButton.vue';
 
 export default {
     name: 'Clients',
@@ -40,9 +41,10 @@ export default {
         }
     },
     components: {
-        ChartBarIcon,
         ClientList,
-        FormModal
+        FormModal,
+        ReportIcon,
+        BaseButton
     },
     methods: {
         goToCharts() {

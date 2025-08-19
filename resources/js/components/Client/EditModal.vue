@@ -105,12 +105,15 @@
 
                 <!-- Modal footer -->
                 <div class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b">
-                    <button data-modal-hide="edit-modal" type="button"
-                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
-                        v-text="leftButtonText" @click="$emit('cancelEvent')"> </button> &nbsp;
-                    <button data-modal-hide="edit-modal" type="button"
-                        class="text-white btn btn-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                        v-text="rightButtonText" @click="onSubmit"> </button>
+                    <base-button data-modal-hide="edit-modal" type="button" variant="secondary"
+                        @click="$emit('cancelEvent')">
+                        {{ leftButtonText }}
+                    </base-button>
+                        &nbsp;
+                    <base-button data-modal-hide="edit-modal" type="button"
+                        @click="onSubmit">
+                        {{ rightButtonText }}
+                    </base-button>
                 </div>
             </div>
         </div>
@@ -119,9 +122,13 @@
 
 <script>
 import notify from '../../Utils/Notify';
+import BaseButton from '../UI/Buttons/BaseButton.vue';
 
 export default {
     name: 'EditModal',
+    components: {
+        BaseButton
+    },
     data() {
         return {
             form: {

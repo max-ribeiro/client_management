@@ -18,10 +18,9 @@
                     </div>
 
                     <div class="flex justify-center">
-                        <button type="submit"
-                            class="w-40 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                        <base-button>
                             Entrar
-                        </button>
+                        </base-button>
                     </div>
 
                     <p v-if="error" class="text-red-600 mt-4 text-center">{{ error }}</p>
@@ -33,6 +32,7 @@
 
 <script>
 import axios from 'axios';
+import BaseButton from './UI/Buttons/BaseButton.vue';
 
 export default {
     name: 'Login',
@@ -42,6 +42,9 @@ export default {
             password: '',
             error: null,
         };
+    },
+    components: {
+        BaseButton
     },
     methods: {
         async login() {
