@@ -1,10 +1,10 @@
 @import 'tailwindcss';
-@plugin "flowbite/plugin";
 @import "flowbite/src/themes/default";
 @import "vue3-toastify/dist/index.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@plugin "flowbite/plugin";
 
 /* fontes do Google */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -15,6 +15,12 @@
 @theme {
     --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Alterado para garantir toasts na paleta de cores definida no figma */
+:root {
+    --toastify-color-success: #008858;
+    --toastify-color-error: #DE321B;
 }
 
 body {
