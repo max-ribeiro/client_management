@@ -2,97 +2,70 @@
 
 namespace Tests\Feature;
 
+use App\Models\Address;
 use App\Models\Client;
+use App\Models\Picture;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
 use Tests\TestCase;
 
 class ClientTest extends TestCase
 {
     
     use DatabaseTransactions;
-    public function test_should_create_new_client_if_valid_data_provided(): void
+    /**
+     * Testes API e Autenticação JWT
+     *
+     * @return void
+     */
+    public function test_should_return_unauthorized_if_token_not_sent(): void
     {
-        $response = $this->post('/api/client', [
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'phone' => '1234567890',
-            'address' => [
-                'street' => '123 Main St',
-                'city' => 'Anytown',
-                'state' => 'California',
-                'neighborhood' => 'Downtown',
-                'number' => 456,
-            ],
-            'picture' => [
-                'content' => 'jaklsdjasdsasads',
-            ],
-            'age' => 30,
-        ]);
+        $response = $this->get('/api/v1/client');
 
-        $response->assertStatus(201);
+        $response->assertStatus(403);
     }
-    public function test_should_not_create_client_if_client_address_data_is_invalid(): void
+    public function test_should_create_new_client_if_authenticated_and_data_is_valid(): void
     {
-        $response = $this->post('/api/client', [
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'phone' => '1234567890',
-            'address' => [
-                'street' => null,
-                'city' => null,
-                'state' => null,
-                'neighborhood' => null,
-                'number' => null,
-            ],
-            'picture' => [
-                'content' => 'jaklsdjasdsasads',
-            ],
-            'age' => 30,
-        ]);
-        $response->assertStatus(500);
-    }
-    public function test_should_fail_if_client_address_is_not_sent(): void
-    {
-        $response = $this->post('/api/client', [
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'phone' => '1234567890',
-            'address' => [
-                'street' => '123 Main St',
-                'city' => 'Anytown',
-                'state' => 'California',
-                'neighborhood' => 'Downtown',
-                'number' => 456,
-            ],
-            'age' => 30,
-        ]);
-        $response->assertStatus(201);
+        $user = User::factory()->create();
 
-        $response = $this->post('/api/client', [
-            'name' => 'John Doe',
-            'email' => 'johsn@example2.com',
-            'phone' => '1234567890',
-            'address' => [],
-            'picture' => [
-                'content' => 'jaklsdjasdsasads',
-            ],
-            'age' => 30,
+        $token = JWTAuth::fromUser($user);
+
+        $clientData = Client::factory(1)->raw([
+            'address' => Address::factory(1)->raw()[0],
+            'picture' => Picture::factory(1)->raw()[0]
         ]);
-        $response->assertStatus(500);
-    }
+        unset($clientData['address_id'], $clientData['picture_id']);
+        $payload = $clientData[0];
 
-    public function test_should_return_all_clients(): void
-    {
-        $response = $this->get('/api/client');
-        $response->assertStatus(200);
-    }
-
-    // public function test_should_return_especific_clients(): void
-    // {
-    //     $response = $this->get('/api/client/1');
-    //     $response->assertStatus(200);
-    // }
+        $response = $this->withHeaders([
+            'Authorization' => "Bearer {$token}"
+        ])
+        ->postJson('/api/v1/client', $payload);
         
+        $response->assertStatus(201);
+    }
+
+    public function test_should_fail_if_authenticated_and_address_not_sent(): void
+    {
+        $user = User::factory()->create();
+
+        $token = JWTAuth::fromUser($user);
+
+        $clientData = Client::factory(1)->raw([
+            'picture' => Picture::factory(1)->raw()[0]
+        ]);
+        unset($clientData['address_id'], $clientData['picture_id']);
+        $payload = $clientData[0];
+
+        $response = $this->withHeaders([
+            'Authorization' => "Bearer {$token}"
+        ])
+        ->postJson('/api/v1/client', $payload);
+        
+        $response->assertStatus(500);
+    }   
 }

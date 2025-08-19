@@ -40,7 +40,7 @@ class ClientController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request): JsonResponse
-    {
+    {   
         try {
             $request->validate($this->client->rules());
 
@@ -93,7 +93,7 @@ class ClientController extends Controller
             $this->webhookService->send($client->toArray());
             return response()->json($client, 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error updating client.'], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 

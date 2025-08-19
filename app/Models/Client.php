@@ -48,11 +48,11 @@ class Client extends Model
             'address.number' => ($isUpdate ? 'sometimes' : 'required') . '|string|max:20',
 
             // Picture (opcional em ambos, mas se vier precisa ser válido)
-            'picture' => [
-                'sometimes',
-                'nullable',
+            'picture' => 'sometimes|nullable|array',
+            'picture.content' => [
+                'required_with:picture',  // só valida se picture vier
                 'string',
-                'regex:/^([A-Za-z0-9+\/=]+)$/'
+                'regex:/^[A-Za-z0-9+\/=]+$/', // valida base64
             ],
         ];
     }
