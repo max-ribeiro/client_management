@@ -13,6 +13,18 @@ export default defineConfig({
         }),
         tailwindcss(),
         vue(),
-        svgLoader()
+        svgLoader({
+            svgo: true,
+            svgoConfig: {
+                plugins: [
+                    {
+                        name: 'removeAttrs',
+                            params: {
+                            attrs: '(fill|stroke)', // remove qualquer fill ou stroke fixo
+                        },
+                    },
+                ],
+            },
+        })
     ],
 });

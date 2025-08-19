@@ -23,10 +23,10 @@
                     <td class="px-6 py-3 text-gray-500">
                         <div class="flex flex-row items-center justify-end gap-2">
                             <a data-modal-target="edit-modal" data-modal-toggle="edit-modal">
-                                <edit-icon class="w-4 h-4 cursor-pointer" @click="selectedClientID = client.id" :id="client.id"/>
+                                <edit-icon class="cursor-pointer" @click="selectedClientID = client.id" :id="client.id" :fill="'#505050'"/>
                             </a>    
                             <a data-modal-target="delete-modal" data-modal-toggle="delete-modal" data-modal-show="delete-modal" @click="selectedClientID = client.id"> 
-                                <delete-icon class="w-4 h-4 cursor-pointer" :id="client.id"/>
+                                <delete-icon class="cursor-pointer" :id="client.id" :fill="'#505050'"/>
                             </a>
                         </div>
                     </td>
