@@ -27,7 +27,7 @@
                     <form class="space-y-6" @submit.prevent="onSubmit">
                         <!-- Dados pessoais -->
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Nome</label>
                             <input v-model="form.name" type="text" id="name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 :placeholder="selectedClient.name || 'Nome'" required />
@@ -42,13 +42,13 @@
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Phone</label>
+                                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Telefone</label>
                                 <input v-model="form.phone" type="text" id="phone"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     :placeholder="selectedClient.phone || 'Email'"  />
                             </div>
                             <div>
-                                <label for="age" class="block mb-2 text-sm font-medium text-gray-900">Age</label>
+                                <label for="age" class="block mb-2 text-sm font-medium text-gray-900">Idade</label>
                                 <input v-model="form.age" type="number" id="age"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     :placeholder="selectedClient.age || 'Email'" />
@@ -56,35 +56,34 @@
                         </div>
 
                         <!-- Endereço -->
-                        <h4 class="text-md font-semibold text-gray-700 mt-4">Address</h4>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label for="street" class="block mb-2 text-sm font-medium text-gray-900">Street</label>
+                                <label for="street" class="block mb-2 text-sm font-medium text-gray-900">Rua</label>
                                 <input v-model="form.address.street" type="text" id="street"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     :placeholder="selectedClient.address?.street || 'Rua'" />
                             </div>
                             <div>
-                                <label for="number" class="block mb-2 text-sm font-medium text-gray-900">Number</label>
+                                <label for="number" class="block mb-2 text-sm font-medium text-gray-900">Numero</label>
                                 <input v-model="form.address.number" type="text" id="number"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     :placeholder="selectedClient.address?.number || 'Numero'" />
                             </div>
                             <div>
-                                <label for="city" class="block mb-2 text-sm font-medium text-gray-900">City</label>
+                                <label for="city" class="block mb-2 text-sm font-medium text-gray-900">Cidade</label>
                                 <input v-model="form.address.city" type="text" id="city"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     :placeholder="selectedClient.address?.city || 'Cidade'" />
                             </div>
                             <div>
-                                <label for="state" class="block mb-2 text-sm font-medium text-gray-900">State</label>
+                                <label for="state" class="block mb-2 text-sm font-medium text-gray-900">Estado</label>
                                 <input v-model="form.address.state" type="text" id="state"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     :placeholder="selectedClient.address?.state || 'Estado'" />
                             </div>
                             <div class="col-span-2">
                                 <label for="neighborhood"
-                                    class="block mb-2 text-sm font-medium text-gray-900">Neighborhood</label>
+                                    class="block mb-2 text-sm font-medium text-gray-900">Bairro</label>
                                 <input v-model="form.address.neighborhood" type="text" id="neighborhood"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     :placeholder="selectedClient.address?.neighborhood || 'Bairro'" />
@@ -92,10 +91,10 @@
                         </div>
 
                         <!-- Foto -->
-                        <h4 class="text-md font-semibold text-gray-700 mt-4">Picture</h4>
+                        <h4 class="text-md font-semibold text-gray-700 mt-4">Foto</h4>
                         <div>
                             <label for="picture" class="block mb-2 text-sm font-medium text-gray-900">Upload
-                                Picture</label>
+                                de foto</label>
                             <input type="file" id="picture" name="picture"
                                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
                                 @change="onFileChange" />
@@ -150,7 +149,7 @@ export default {
     props: {
         title: {
             type: String,
-            default: 'Modal'
+            default: 'Editar cliente'
         },
         leftButtonText: {
             type: String,
