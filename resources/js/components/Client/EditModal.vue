@@ -44,23 +44,6 @@ export default {
         }
     },
     methods: {
-        validateForm() {
-            if (!this.form.name) {
-                notify.error("O nome é obrigatório.");
-                return false;
-            }
-            if (!this.form.email) {
-                notify.error("O email é obrigatório.");
-                return false;
-            }
-            // Regex simples de validação de email
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(this.form.email)) {
-                notify.error("Digite um email válido.");
-                return false;
-            }
-            return true;
-        },
         onFileChange(e) {
             const file = e.target.files[0];
             if (file) {
@@ -75,13 +58,37 @@ export default {
             }
         },
         onSubmit() {
-            if (!this.validateForm()) {
-                return;
-            }
-
             const payload = {};
 
+            const buildDiff = (formObj, originalObj, target) => {
+                for (const key in formObj) {
+                    const newValue = formObj[key];
+                    const oldValue = originalObj ? originalObj[key] : null;
+
+                    if (newValue === '' || newValue === null) {
+                        continue; // ignora vazios
+                    }
+
+                    if (typeof newValue === 'object' && newValue !== null && !Array.isArray(newValue)) {
+                        const nested = {};
+                        buildDiff(newValue, oldValue, nested);
+                        if (Object.keys(nested).length > 0) {
+                            target[key] = nested;
+                        }
+                    } else if (newValue !== oldValue) {
+                        target[key] = newValue;
+                    }
+                }
+            };
+
             buildDiff(this.form, this.selectedClient, payload);
+
+            if (payload.phone) {
+                payload.phone = payload.phone.replace(/\D/g, ''); // mantém só dígitos
+            }
+            if (payload?.address?.number) {
+                payload.address.number = payload.address.number.replace(/\D/g, '');
+            }
 
             const token = localStorage.getItem('token');
 
@@ -140,6 +147,7 @@ export default {
                                 <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Telefone</label>
                                 <input v-model="form.phone" type="text" id="phone"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    v-mask="['(##) #####-####', '(##) ####-####']"
                                     :placeholder="selectedClient.phone || 'Email'"  />
                             </div>
                             <div>
