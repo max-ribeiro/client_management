@@ -1,3 +1,95 @@
+<script>
+import notify from '../../Utils/Notify';
+import BaseButton from '../UI/Buttons/BaseButton.vue';
+
+export default {
+    name: 'EditModal',
+    components: {
+        BaseButton
+    },
+    data() {
+        return {
+            form: {
+                name: '',
+                email: '',
+                phone: '',
+                age: null,
+                address: {
+                    street: '',
+                    number: '',
+                    city: '',
+                    state: '',
+                    neighborhood: ''
+                },
+                picture: null
+            }
+        }
+    },
+    props: {
+        title: {
+            type: String,
+            default: 'Editar cliente'
+        },
+        leftButtonText: {
+            type: String,
+            default: 'Cancelar'
+        },
+        rightButtonText: {
+            type: String,
+            default: 'Salvar'
+        },
+        selectedClient: {
+            type:Object,
+            default: {}
+        }
+    },
+    methods: {
+        onSubmit() {
+            const payload = {};
+
+            // função recursiva para comparar campos de objeto (ex: address)
+            const buildDiff = (formObj, originalObj, target) => {
+                for (const key in formObj) {
+                    const newValue = formObj[key];
+                    const oldValue = originalObj ? originalObj[key] : null;
+
+                    if (newValue === '' || newValue === null) {
+                        continue; // ignora vazios
+                    }
+
+                    if (typeof newValue === 'object' && newValue !== null && !Array.isArray(newValue)) {
+                        const nested = {};
+                        buildDiff(newValue, oldValue, nested);
+                        if (Object.keys(nested).length > 0) {
+                            target[key] = nested;
+                        }
+                    } else if (newValue !== oldValue) {
+                        target[key] = newValue;
+                    }
+                }
+            };
+
+            buildDiff(this.form, this.selectedClient, payload);
+
+            const token = localStorage.getItem('token');
+
+            axios.patch(`/api/v1/clients/${this.selectedClient.id}`, payload, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
+                }
+            }).then(() => {
+                notify.success('Dados atualizados com sucesso!');
+                this.$emit('refresh');
+            }).catch(error => {
+                notify.error('Desculpe, houve algum erro ao atualizar os dados.')
+                console.error(error);
+            });
+        }
+    },
+    emits: ["cancelEvent", "confirmEvent"]
+}
+</script>
 <template>
     <!-- Main modal -->
     <div id="edit-modal" tabindex="-1"
@@ -108,96 +200,3 @@
         </div>
     </div>
 </template>
-
-<script>
-import notify from '../../Utils/Notify';
-import BaseButton from '../UI/Buttons/BaseButton.vue';
-
-export default {
-    name: 'EditModal',
-    components: {
-        BaseButton
-    },
-    data() {
-        return {
-            form: {
-                name: '',
-                email: '',
-                phone: '',
-                age: null,
-                address: {
-                    street: '',
-                    number: '',
-                    city: '',
-                    state: '',
-                    neighborhood: ''
-                },
-                picture: null
-            }
-        }
-    },
-    props: {
-        title: {
-            type: String,
-            default: 'Editar cliente'
-        },
-        leftButtonText: {
-            type: String,
-            default: 'Cancelar'
-        },
-        rightButtonText: {
-            type: String,
-            default: 'Salvar'
-        },
-        selectedClient: {
-            type:Object,
-            default: {}
-        }
-    },
-    methods: {
-        onSubmit() {
-            const payload = {};
-
-            // função recursiva para comparar campos de objeto (ex: address)
-            const buildDiff = (formObj, originalObj, target) => {
-                for (const key in formObj) {
-                    const newValue = formObj[key];
-                    const oldValue = originalObj ? originalObj[key] : null;
-
-                    if (newValue === '' || newValue === null) {
-                        continue; // ignora vazios
-                    }
-
-                    if (typeof newValue === 'object' && newValue !== null && !Array.isArray(newValue)) {
-                        const nested = {};
-                        buildDiff(newValue, oldValue, nested);
-                        if (Object.keys(nested).length > 0) {
-                            target[key] = nested;
-                        }
-                    } else if (newValue !== oldValue) {
-                        target[key] = newValue;
-                    }
-                }
-            };
-
-            buildDiff(this.form, this.selectedClient, payload);
-
-            const token = localStorage.getItem('token');
-
-            axios.patch(`/api/v1/clients/${this.selectedClient.id}`, payload, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: 'application/json'
-                }
-            }).then(() => {
-                notify.success('Dados atualizados com sucesso!');
-                this.$emit('refresh');
-            }).catch(error => {
-                notify.error('Desculpe, houve algum erro ao atualizar os dados.')
-                console.error(error);
-            });
-        }
-    },
-    emits: ["cancelEvent", "confirmEvent"]
-}
-</script>

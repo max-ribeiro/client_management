@@ -1,3 +1,60 @@
+<script>
+import notify from '../../Utils/Notify';
+import BaseButton from '../UI/Buttons/BaseButton.vue';
+
+export default {
+    components: { BaseButton },
+    data() {
+        return {
+            form: {
+                name: '',
+                email: '',
+                phone: '',
+                age: null,
+                address: {
+                    street: '',
+                    number: '',
+                    city: '',
+                    state: '',
+                    neighborhood: ''
+                },
+                picture: null
+            }
+        }
+    },
+    methods: {
+        onFileChange(event) {
+            this.form.picture = event.target.files[0];
+        },
+        onCancel() {
+            console.log("Cancelado");
+        },
+        submit() {
+            // Monta o JSON para envio
+            const payload = { ...this.form };
+            const token = localStorage.getItem('token');
+
+            // Aqui você pode fazer um POST com axios ou fetch
+            axios.post('/api/v1/clients', payload, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
+                }
+            }).then(response => {
+                notify.success('Cliente cadastrado com sucesso!');
+                this.$emit('refresh');
+            }).catch(error => {
+                notify.error('Erro ao cadastrar cliente.');
+                console.error("Erro ao enviar dados:", error);
+                if(403 === error.status) {
+                    localStorage.removeItem('token');
+                    this.$router.push('/');
+                }
+            });
+        }
+    }
+}
+</script>
 <template>
     <!-- Main modal -->
     <div id="default-modal" tabindex="-1" aria-hidden="true"
@@ -116,61 +173,3 @@
         </div>
     </div>
 </template>
-
-<script>
-import notify from '../../Utils/Notify';
-import BaseButton from '../UI/Buttons/BaseButton.vue';
-
-export default {
-    components: { BaseButton },
-    data() {
-        return {
-            form: {
-                name: '',
-                email: '',
-                phone: '',
-                age: null,
-                address: {
-                    street: '',
-                    number: '',
-                    city: '',
-                    state: '',
-                    neighborhood: ''
-                },
-                picture: null
-            }
-        }
-    },
-    methods: {
-        onFileChange(event) {
-            this.form.picture = event.target.files[0];
-        },
-        onCancel() {
-            console.log("Cancelado");
-        },
-        submit() {
-            // Monta o JSON para envio
-            const payload = { ...this.form };
-            const token = localStorage.getItem('token');
-
-            // Aqui você pode fazer um POST com axios ou fetch
-            axios.post('/api/v1/clients', payload, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: 'application/json'
-                }
-            }).then(response => {
-                notify.success('Cliente cadastrado com sucesso!');
-                this.$emit('refresh');
-            }).catch(error => {
-                notify.error('Erro ao cadastrar cliente.');
-                console.error("Erro ao enviar dados:", error);
-                if(403 === error.status) {
-                    localStorage.removeItem('token');
-                    this.$router.push('/');
-                }
-            });
-        }
-    }
-}
-</script>

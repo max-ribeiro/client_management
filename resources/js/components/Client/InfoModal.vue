@@ -1,3 +1,21 @@
+<script>
+import EditIcon from '../../../icons/edit.svg?component';
+import DeleteIcon from '../../../icons/delete.svg?component';
+
+export default {
+    name: 'InfoModal',
+    components: {
+        EditIcon,
+        DeleteIcon
+    },
+    props: {
+        selectedClient: {
+            type: Object,
+            default: () => ({})
+        }
+    }
+}
+</script>
 <template>
     <!-- Main modal -->
     <div id="info-modal" tabindex="0" aria-hidden="true"
@@ -57,22 +75,3 @@
         </div>
     </div>
 </template>
-
-<script>
-import EditIcon from '../../../icons/edit.svg?component';
-import DeleteIcon from '../../../icons/delete.svg?component';
-
-export default {
-    name: 'InfoModal',
-    components: {
-        EditIcon,
-        DeleteIcon
-    },
-    props: {
-        selectedClient: {
-            type: Object,
-            default: () => ({})
-        }
-    }
-}
-</script>

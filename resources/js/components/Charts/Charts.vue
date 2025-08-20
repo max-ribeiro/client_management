@@ -1,24 +1,3 @@
-<template>
-    <div class="bg-gray-100 min-h-screen" id="charts">
-        <div class="max-w-5xl mx-auto">
-            <h1 class="text-xl font-semibold text-gray-800 mb-4">Dados sobre clientes</h1>
-            <div class="bg-white rounded-xl shadow p-6">
-                <base-button variant="secondary" @click="navigateBack">
-                    <left-arrow-icon></left-arrow-icon> Voltar
-                </base-button>
-
-                <!-- Chart por Cidade -->
-                <h2 class="text-lg font-semibold mb-2">Clientes por Cidade</h2>
-                <Bar :data="chartCity" :options="chartOptions" class="mb-8" />
-
-                <!-- Chart por Estado -->
-                <h2 class="text-lg font-semibold mb-2">Clientes por Estado</h2>
-                <Pie :data="chartState" :options="chartOptions" />
-            </div>
-        </div>
-    </div>
-</template>
-
 <script>
 import BaseButton from '../UI/Buttons/BaseButton.vue';
 import LeftArrowIcon from '../../../icons/left.svg?component'
@@ -107,3 +86,23 @@ export default {
     }
 };
 </script>
+<template>
+    <div class="bg-gray-100 min-h-screen" id="charts">
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-xl font-semibold text-gray-800 mb-4">Dados sobre clientes</h1>
+            <div class="bg-white rounded-xl shadow p-6">
+                <base-button variant="secondary" @click="navigateBack">
+                    <left-arrow-icon></left-arrow-icon> Voltar
+                </base-button>
+
+                <!-- Chart por Cidade -->
+                <h2 class="text-lg font-semibold mb-2">Clientes por Cidade</h2>
+                <Bar :data="chartCity" :options="chartOptions" class="mb-8" />
+
+                <!-- Chart por Estado -->
+                <h2 class="text-lg font-semibold mb-2">Clientes por Estado</h2>
+                <Pie :data="chartState" :options="chartOptions" />
+            </div>
+        </div>
+    </div>
+</template>

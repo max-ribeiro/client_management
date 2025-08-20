@@ -1,3 +1,43 @@
+<script>
+import notify from '../../Utils/Notify';
+import BaseButton from '../UI/Buttons/BaseButton.vue';
+
+export default {
+    name: 'DeleteModal',
+    components: {
+        BaseButton
+    },
+    props: {
+        selectedClient: null
+    },
+    methods: {
+        deleteClient() {
+            const token = localStorage.getItem('token');
+
+            // Aqui você pode fazer um POST com axios ou fetch
+            axios.delete(`/api/v1/clients/${this.selectedClient}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
+                }
+            }).then(response => {
+                notify.success('Removido com sucesso');
+                this.$emit('refresh');
+            }).catch(error => {
+                notify.error('Erro ao remover cliente');
+                console.error("Erro ao enviar dados:", error);
+                if(403 === error.status) {
+                    localStorage.removeItem('token');
+                    this.$router.push('/');
+                }
+            });
+        },
+        emits: [
+            'refresh'
+        ]
+    }
+}
+</script>
 <template>
     <div id="delete-modal" tabindex="-1"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -43,43 +83,3 @@
         </div>
     </div>
 </template>
-<script>
-import notify from '../../Utils/Notify';
-import BaseButton from '../UI/Buttons/BaseButton.vue';
-
-export default {
-    name: 'DeleteModal',
-    components: {
-        BaseButton
-    },
-    props: {
-        selectedClient: null
-    },
-    methods: {
-        deleteClient() {
-            const token = localStorage.getItem('token');
-
-            // Aqui você pode fazer um POST com axios ou fetch
-            axios.delete(`/api/v1/clients/${this.selectedClient}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: 'application/json'
-                }
-            }).then(response => {
-                notify.success('Removido com sucesso');
-                this.$emit('refresh');
-            }).catch(error => {
-                notify.error('Erro ao remover cliente');
-                console.error("Erro ao enviar dados:", error);
-                if(403 === error.status) {
-                    localStorage.removeItem('token');
-                    this.$router.push('/');
-                }
-            });
-        },
-        emits: [
-            'refresh'
-        ]
-    }
-}
-</script>
