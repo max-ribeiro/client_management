@@ -6,9 +6,9 @@
             <!-- Título -->
             <h1 class="text-xl font-semibold text-gray-800 mb-4">Contatos</h1>
             <!-- Card -->
-            <div class="bg-white rounded-xl shadow p-6">
+            <div class="bg-white rounded-xl shadow">
                 <!-- Search -->
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex flex-row items-center justify-between p-[16px]">
                     <div class="flex items-center w-1/3">
                         <label for="default-search" class="sr-only">Search</label>
                         <div class="relative w-80 h-9">
@@ -24,11 +24,11 @@
 
 
                     </div>
-                    <div class="flex space-x-2">
+                    <div class="flex items-center gap-[16px]">
                         <base-button :icon="true" data-modal-target="default-modal" data-modal-toggle="default-modal">
                             <span class="mr-1">+</span> Adicionar contato
                         </base-button>
-                        <report-icon @click="goToCharts" class="max-w-8">
+                        <report-icon @click="goToCharts" class="w-[20px] h-[20px] cursor-pointer" fill="#505050">
                         </report-icon>
                     </div>
                 </div>
