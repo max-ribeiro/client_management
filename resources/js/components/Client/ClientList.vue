@@ -1,16 +1,16 @@
 <template>
-    <div class="overflow-hidden border rounded-lg" id="client-list">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+    <div class="overflow-hidden" id="client-list">
+        <table class="min-w-full divide-gray-200">
+            <thead class="divide-y border-b-[1px] border-[#E1E1E1]">
                 <tr>
                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Nome ↓</th>
                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Email</th>
                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Telefone</th>
-                    <th class="px-6 py-3 text-right text-sm font-medium text-gray-600">Ações</th>
+                    <th class="px-6 py-3 text-right text-sm font-medium text-gray-600"></th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200">
-                <tr v-for="client in clients" :key="client.id" class="hover:bg-gray-50">
+            <tbody class="">
+                <tr v-for="client in clients" :key="client.id" class="hover:bg-gray-50 p-[8px]">
                     <td class="px-6 py-3 flex items-center space-x-3" data-modal-target="info-modal" data-modal-toggle="info-modal" @click="selectedClientID = client.id">
                         <div
                             class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 font-semibold">
@@ -20,15 +20,15 @@
                     </td>
                     <td class="px-6 py-3 text-gray-600" data-modal-target="info-modal" data-modal-toggle="info-modal" @click="selectedClientID = client.id">{{ client.email }}</td>
                     <td class="px-6 py-3 text-gray-600" data-modal-target="info-modal" data-modal-toggle="info-modal" @click="selectedClientID = client.id">
-                        {{ client.phone }} <phone-icon v-if="client.phone" class="cursor-pointer" style="width: 18px; height: 18px; display: inline;" :fill="'#505050'" @click="makeCall(client.id)"/>
+                        {{ client.phone }} <phone-icon v-if="client.phone" class="cursor-pointer inline w-[20px] h-[20px]" :fill="'#505050'" @click="makeCall(client.id)"/>
                     </td>
                     <td class="px-6 py-3 text-gray-500">
                         <div class="flex flex-row items-center justify-end gap-2">
                             <a data-modal-target="edit-modal" data-modal-toggle="edit-modal">
-                                <edit-icon class="cursor-pointer" @click="selectedClientID = client.id" :id="client.id" :fill="'#505050'"/>
+                                <edit-icon class="cursor-pointer w-[20px] h-[20px]" @click="selectedClientID = client.id" :id="client.id" :fill="'#505050'"/>
                             </a>    
                             <a data-modal-target="delete-modal" data-modal-toggle="delete-modal" data-modal-show="delete-modal" @click="selectedClientID = client.id"> 
-                                <delete-icon class="cursor-pointer" :id="client.id" :fill="'#505050'"/>
+                                <delete-icon class="cursor-pointer w-[20px] h-[20px]" :id="client.id" :fill="'#505050'"/>
                             </a>
                         </div>
                     </td>
