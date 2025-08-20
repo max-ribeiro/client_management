@@ -25,7 +25,8 @@ class VOIPController extends Controller
             return response()->json(['error' => 'Contato não possui telefone'], 400);
         }
 
-        $callSID = $this->voipService->call($client->phone);
+        $phoneWithAreaCode = '55'.$client->phone;
+        $callSID = $this->voipService->call($phoneWithAreaCode);
 
         return response()->json([
             'message' => 'Ligação iniciada com sucesso',

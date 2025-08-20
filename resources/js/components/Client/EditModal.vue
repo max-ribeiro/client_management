@@ -44,30 +44,42 @@ export default {
         }
     },
     methods: {
-        onSubmit() {
-            const payload = {};
-
-            // função recursiva para comparar campos de objeto (ex: address)
-            const buildDiff = (formObj, originalObj, target) => {
-                for (const key in formObj) {
-                    const newValue = formObj[key];
-                    const oldValue = originalObj ? originalObj[key] : null;
-
-                    if (newValue === '' || newValue === null) {
-                        continue; // ignora vazios
-                    }
-
-                    if (typeof newValue === 'object' && newValue !== null && !Array.isArray(newValue)) {
-                        const nested = {};
-                        buildDiff(newValue, oldValue, nested);
-                        if (Object.keys(nested).length > 0) {
-                            target[key] = nested;
-                        }
-                    } else if (newValue !== oldValue) {
-                        target[key] = newValue;
-                    }
+        validateForm() {
+            if (!this.form.name) {
+                notify.error("O nome é obrigatório.");
+                return false;
+            }
+            if (!this.form.email) {
+                notify.error("O email é obrigatório.");
+                return false;
+            }
+            // Regex simples de validação de email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(this.form.email)) {
+                notify.error("Digite um email válido.");
+                return false;
+            }
+            return true;
+        },
+        onFileChange(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+                if (!allowedTypes.includes(file.type)) {
+                    notify.error("Formato de imagem inválido. Use PNG, JPG ou GIF.");
+                    e.target.value = ""; // limpa input
+                    this.form.picture = null;
+                    return;
                 }
-            };
+                this.form.picture = file;
+            }
+        },
+        onSubmit() {
+            if (!this.validateForm()) {
+                return;
+            }
+
+            const payload = {};
 
             buildDiff(this.form, this.selectedClient, payload);
 
@@ -90,6 +102,7 @@ export default {
     emits: ["cancelEvent", "confirmEvent"]
 }
 </script>
+
 <template>
     <!-- Main modal -->
     <div id="edit-modal" tabindex="-1"
@@ -112,14 +125,14 @@ export default {
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Nome</label>
                             <input v-model="form.name" type="text" id="name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                :placeholder="selectedClient.name || 'Nome'" required />
+                                :placeholder="selectedClient.name || 'Nome'" />
                         </div>
 
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                             <input v-model="form.email" type="email" id="email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                :placeholder="selectedClient.email || 'Email'" required />
+                                :placeholder="selectedClient.email || 'Email'" />
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">

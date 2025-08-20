@@ -83,7 +83,7 @@ export default {
                         </report-icon>
                     </div>
                 </div>
-                <client-list v-if="clients.length" :clients="clients" @refresh="fetchClients"/>
+                <client-list :clients="clients" @refresh="fetchClients"/>
             </div>
         </div>
     </div>

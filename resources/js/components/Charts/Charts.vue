@@ -1,7 +1,7 @@
 <script>
 import BaseButton from '../UI/Buttons/BaseButton.vue';
 import LeftArrowIcon from '../../../icons/left.svg?component'
-import { Bar, Pie } from 'vue-chartjs'
+import { Bar, Pie, Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement } from 'chart.js'
 import notify from '../../Utils/Notify';
 import axios from 'axios';
@@ -13,19 +13,15 @@ export default {
     components: {
         BaseButton,
         LeftArrowIcon,
+        Doughnut,
         Bar,
         Pie
     },
     data() {
         return {
-            chartCity: {
-                labels: [],
-                datasets: []
-            },
-            chartState: {
-                labels: [],
-                datasets: []
-            },
+            chartCity: { labels: [], datasets: [] },
+            chartState: { labels: [], datasets: [] },
+            chartAge: { labels: [], datasets: [] }, // <-- novo gráfico
             chartOptions: {
                 responsive: true,
                 plugins: {
@@ -46,48 +42,49 @@ export default {
             const token = localStorage.getItem('token');
 
             axios.get('/api/reports', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: 'application/json'
-                }
+                headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' }
             }).then(response => {
                 if (response.status === 200) {
-                    const { city, state } = response.data;
+                    const { city, state, ageRanges } = response.data;
 
-                    // Monta gráfico por cidade
                     this.chartCity = {
                         labels: city.map(item => item.city),
-                        datasets: [
-                            {
-                                label: 'Clientes por Cidade',
-                                data: city.map(item => item.total),
-                                backgroundColor: '#3b82f6'
-                            }
-                        ]
+                        datasets: [{
+                            label: 'Clientes por Cidade',
+                            data: city.map(item => item.total),
+                            backgroundColor: '#3b82f6'
+                        }]
                     };
 
-                    // Monta gráfico por estado
                     this.chartState = {
                         labels: state.map(item => item.state),
-                        datasets: [
-                            {
-                                label: 'Clientes por Estado',
-                                data: state.map(item => item.total),
-                                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444']
-                            }
-                        ]
+                        datasets: [{
+                            label: 'Clientes por Estado',
+                            data: state.map(item => item.total),
+                            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444']
+                        }]
+                    };
+
+                    this.chartAge = {
+                        labels: ageRanges.map(item => item.age_range),
+                        datasets: [{
+                            label: 'Clientes por Faixa Etária',
+                            data: ageRanges.map(item => item.total),
+                            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444']
+                        }]
                     };
                 }
             }).catch(error => {
-                notify.error('Desculpe, houve algum erro ao atualizar os dados.')
+                notify.error('Erro ao buscar dados de cidade e estado.');
                 console.error(error);
             });
-        }
+        },
     }
 };
 </script>
+
 <template>
-    <div class="bg-gray-100 min-h-screen" id="charts">
+    <div class="bg-gray-100 min-h-screen p-6" id="charts">
         <div class="max-w-5xl mx-auto">
             <h1 class="text-xl font-semibold text-gray-800 mb-4">Dados sobre clientes</h1>
             <div class="bg-white rounded-xl shadow p-6">
@@ -96,12 +93,16 @@ export default {
                 </base-button>
 
                 <!-- Chart por Cidade -->
-                <h2 class="text-lg font-semibold mb-2">Clientes por Cidade</h2>
+                <h2 class="text-lg font-semibold mb-2 mt-6">Clientes por Cidade</h2>
                 <Bar :data="chartCity" :options="chartOptions" class="mb-8" />
 
                 <!-- Chart por Estado -->
                 <h2 class="text-lg font-semibold mb-2">Clientes por Estado</h2>
-                <Pie :data="chartState" :options="chartOptions" />
+                <Pie :data="chartState" :options="chartOptions" class="mb-8" />
+
+                <!-- Chart por Faixa Etária -->
+                <h2 class="text-lg font-semibold mb-2">Clientes por Faixa Etária</h2>
+                <Doughnut :data="chartAge" :options="chartOptions" />
             </div>
         </div>
     </div>

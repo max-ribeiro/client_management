@@ -3,8 +3,10 @@ import EditIcon from '../../../icons/edit.svg?component';
 import DeleteIcon from '../../../icons/delete.svg?component';
 import PhoneIcon from '../../../icons/phone.svg?component';
 import DeleteModal from './DeleteModal.vue';
+import BaseButton from '../UI/Buttons/BaseButton.vue';
 import EditModal from './EditModal.vue';
 import InfoModal from './InfoModal.vue';
+import FormModal from './FormModal.vue';
 import notify from '../../Utils/Notify';
 
 export default {
@@ -18,9 +20,11 @@ export default {
         EditIcon,
         DeleteIcon,
         PhoneIcon,
+        BaseButton,
         DeleteModal,
         EditModal,
-        InfoModal
+        InfoModal,
+        FormModal
     },
     props: {
         clients: {
@@ -65,6 +69,9 @@ export default {
         this.$nextTick(() => {
             initFlowbite()
         })
+    },
+    updated() {
+        initFlowbite();
     }
 };
 </script>
@@ -79,7 +86,7 @@ export default {
                     <th class="px-6 py-3 text-right text-sm font-medium text-gray-600"></th>
                 </tr>
             </thead>
-            <tbody class="">
+            <tbody class="" v-if="clients.length">
                 <tr v-for="client in clients" :key="client.id" class=" hover:bg-gray-50 p-[8px]">
                     <td class="px-6 py-3 flex items-center space-x-3" data-modal-target="info-modal" data-modal-toggle="info-modal" @click="selectedClientID = client.id">
                         <div
@@ -108,8 +115,20 @@ export default {
                 </tr>
             </tbody>
         </table>
-        <delete-modal :selected-client="selectedClientID" @refresh="$emit('refresh')"></delete-modal>
-        <edit-modal :selected-client="selectedClient" @refresh="$emit('refresh')"></edit-modal>
-        <info-modal :selected-client="selectedClient"></info-modal>
+        <div v-show="!clients.length" class="h-[75vh] w-full flex flex-col items-center justify-center">
+            <div>
+                <img src="/public/assets/img/book.png" />
+            </div>
+            <base-button :icon="true" class="mt-[16px]" data-modal-target="default-modal" data-modal-toggle="default-modal">
+                <span class="">+</span> Adicionar contato
+            </base-button>
+            <form-modal @refresh="fetchClients" />
+
+        </div>
+        <span v-if="clients.length">
+            <delete-modal :selected-client="selectedClientID" @refresh="$emit('refresh')"></delete-modal>
+            <edit-modal :selected-client="selectedClient" @refresh="$emit('refresh')"></edit-modal>
+            <info-modal :selected-client="selectedClient"></info-modal>
+        </span>
     </div>
 </template>

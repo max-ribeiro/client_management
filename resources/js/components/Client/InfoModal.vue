@@ -29,7 +29,12 @@ export default {
                     <div class="flex items-center flex-row gap-4">
                         <div
                             class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 font-semibold">
-                            US
+                            <span v-if="selectedClient?.picture">
+                                <img :src="selectedClient?.picture" />
+                            </span>
+                            <span v-else>
+                                XX
+                            </span>
                         </div>
                         <h3 class="text-lg font-semibold text-gray-900">
                             {{ selectedClient?.name }}
@@ -37,10 +42,10 @@ export default {
                     </div>
                     <div class="flex items-center gap-2">
                         <a data-modal-target="edit-modal" data-modal-toggle="edit-modal" title="editar cliente">
-                            <edit-icon class="cursor-pointer w-[20px] h-[20px]" @click="selectedClientID = selectedClient?.id" :id="selectedClient?.id" :fill="'#505050'"/>
+                            <edit-icon class="cursor-pointer w-[20px] h-[20px]" :fill="'#505050'"/>
                         </a>    
-                        <a data-modal-target="delete-modal" data-modal-toggle="delete-modal" data-modal-show="delete-modal" @click="selectedClientID = client.id" title="remover cliente"> 
-                            <delete-icon class="cursor-pointer w-[20px] h-[20px]" :id="selectedClient?.id" :fill="'#505050'"/>
+                        <a data-modal-target="delete-modal" data-modal-toggle="delete-modal" data-modal-show="delete-modal" title="remover cliente"> 
+                            <delete-icon class="cursor-pointer w-[20px] h-[20px]" :fill="'#505050'"/>
                         </a>
                         <button type="button"
                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
