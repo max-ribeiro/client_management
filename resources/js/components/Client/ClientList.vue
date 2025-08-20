@@ -47,7 +47,6 @@
 import EditIcon from '../../../icons/edit.svg?component';
 import DeleteIcon from '../../../icons/delete.svg?component';
 import PhoneIcon from '../../../icons/phone.svg?component';
-import { initFlowbite } from 'flowbite';
 import DeleteModal from './DeleteModal.vue';
 import EditModal from './EditModal.vue';
 import InfoModal from './InfoModal.vue';
@@ -108,7 +107,9 @@ export default {
         }
     },
     mounted() {
-        initFlowbite();
+        this.$nextTick(() => {
+            initFlowbite()
+        })
     }
 };
 </script>

@@ -3,11 +3,9 @@
         <div class="max-w-5xl mx-auto">
             <h1 class="text-xl font-semibold text-gray-800 mb-4">Dados sobre clientes</h1>
             <div class="bg-white rounded-xl shadow p-6">
-                <div class="bg-white rounded-xl shadow mb-6">
-                    <base-button variant="secondary" @click="navigateBack">
-                        <left-arrow-icon></left-arrow-icon> Voltar
-                    </base-button>
-                </div>
+                <base-button variant="secondary" @click="navigateBack">
+                    <left-arrow-icon></left-arrow-icon> Voltar
+                </base-button>
 
                 <!-- Chart por Cidade -->
                 <h2 class="text-lg font-semibold mb-2">Clientes por Cidade</h2>

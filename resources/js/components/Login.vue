@@ -17,7 +17,6 @@
 import axios from 'axios';
 import BaseButton from './UI/Buttons/BaseButton.vue';
 import LoginModal from './Modals/LoginModal.vue';
-import { initFlowbite } from 'flowbite'
 
 
 export default {
@@ -50,8 +49,5 @@ export default {
             }
         },
     },
-    created() {
-        initFlowbite();
-    }
 };
 </script>
