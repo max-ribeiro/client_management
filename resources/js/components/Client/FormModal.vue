@@ -28,7 +28,16 @@ export default {
     methods: {
         onFileChange(event) {
             const file = event.target.files[0];
+            console.dir(event.target.files);
             if (!file) return;
+
+            const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                notify.error("Formato de imagem inválido. Use PNG ou JPG.");
+                event.target.value = ""; // limpa input
+                this.form.picture = null;
+                return;
+            }
 
             const reader = new FileReader();
 
@@ -79,6 +88,7 @@ export default {
                 }
             }).then(response => {
                 notify.success('Cliente cadastrado com sucesso!');
+                this.clearForm();
                 this.$emit('refresh');
             }).catch(error => {
                 notify.error('Erro ao cadastrar cliente.');
@@ -88,6 +98,23 @@ export default {
                     this.$router.push('/');
                 }
             });
+        },
+        clearForm() {
+            this.form = {
+                name: '',
+                email: '',
+                phone: '',
+                age: null,
+                address: {
+                    street: '',
+                    number: '',
+                    city: '',
+                    state: '',
+                    neighborhood: ''
+                },
+                picture: null
+            }
+            this.form.picture = {};
         }
     }
 }

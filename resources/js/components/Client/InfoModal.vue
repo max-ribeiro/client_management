@@ -19,7 +19,7 @@ export default {
 <template>
     <!-- Main modal -->
     <div id="info-modal" tabindex="0" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-20 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow-sm">
@@ -30,7 +30,7 @@ export default {
                         <div
                             class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 font-semibold">
                             <span v-if="selectedClient?.picture">
-                                <img :src="selectedClient?.picture" />
+                                <img :src="selectedClient?.picture?.content" />
                             </span>
                             <span v-else>
                                 XX

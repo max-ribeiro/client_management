@@ -44,18 +44,27 @@ export default {
         }
     },
     methods: {
-        onFileChange(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
-                if (!allowedTypes.includes(file.type)) {
-                    notify.error("Formato de imagem inválido. Use PNG, JPG ou GIF.");
-                    e.target.value = ""; // limpa input
-                    this.form.picture = null;
-                    return;
-                }
-                this.form.picture = file;
+        onFileChange(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                notify.error("Formato de imagem inválido. Use PNG ou JPG.");
+                e.target.value = ""; // limpa input
+                this.form.picture = null;
+                return;
             }
+
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                // e.target.result contém o arquivo em Base64
+                this.form.picture = {};
+                this.form.picture.content = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
         },
         onSubmit() {
             const payload = {};
@@ -99,11 +108,28 @@ export default {
                 }
             }).then(() => {
                 notify.success('Dados atualizados com sucesso!');
+                this.clearForm();
                 this.$emit('refresh');
             }).catch(error => {
                 notify.error('Desculpe, houve algum erro ao atualizar os dados.')
                 console.error(error);
             });
+        },
+        clearForm() {
+            this.form = {
+                name: '',
+                email: '',
+                phone: '',
+                age: null,
+                address: {
+                    street: '',
+                    number: '',
+                    city: '',
+                    state: '',
+                    neighborhood: ''
+                },
+                picture: null
+            }
         }
     },
     emits: ["cancelEvent", "confirmEvent"]

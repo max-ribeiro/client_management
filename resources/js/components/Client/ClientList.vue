@@ -91,13 +91,18 @@ export default {
                     <td class="px-6 py-3 flex items-center space-x-3" data-modal-target="info-modal" data-modal-toggle="info-modal" @click="selectedClientID = client.id">
                         <div
                             class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 font-semibold">
-                            US
+                            <span v-if="client?.picture?.content">
+                                <img :src="client?.picture?.content" />
+                            </span>
+                            <span v-else>
+                                US
+                            </span>
                         </div>
                         <span class="text-gray-800">{{ client.name }}</span>
                     </td>
                     <td class="px-6 py-3 text-gray-600" data-modal-target="info-modal" data-modal-toggle="info-modal" @click="selectedClientID = client.id">{{ client.email }}</td>
                     <td class="px-6 py-3 items-center text-gray-600" data-modal-target="info-modal" data-modal-toggle="info-modal" @click="selectedClientID = client.id">
-                        {{ client.phone }}
+                        {{ client.phone || '-' }}
                     </td>
                     <td class="px-6 py-3 text-gray-500">
                         <div class="flex flex-row items-center justify-end gap-2">
@@ -122,7 +127,7 @@ export default {
             <base-button :icon="true" class="mt-[16px]" data-modal-target="default-modal" data-modal-toggle="default-modal">
                 <span class="">+</span> Adicionar contato
             </base-button>
-            <form-modal @refresh="fetchClients" />
+            <form-modal @refresh="$emit('refresh')" />
 
         </div>
         <span v-if="clients.length">
