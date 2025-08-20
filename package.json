@@ -17,10 +17,12 @@
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^6.0.1",
+        "chart.js": "^4.5.0",
         "flowbite": "^3.1.2",
         "install": "^0.13.0",
         "npm": "^11.5.2",
         "vue": "^3.5.18",
+        "vue-chartjs": "^5.3.2",
         "vue-router": "^4.5.1",
         "vue3-toastify": "^0.2.8"
     }
