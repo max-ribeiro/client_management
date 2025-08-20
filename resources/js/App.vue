@@ -12,7 +12,7 @@ import { initFlowbite } from 'flowbite'
 export default {
     name: 'App',
     mounted() {
-        initFlowbite()
+        initFlowbite();
     }
 };
 </script>

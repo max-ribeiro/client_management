@@ -17,7 +17,7 @@ class JWTAuthController extends Controller
     }
 
     /**
-     * Undocumented function
+     * Registra um novo usuario
      *
      * @param Request $request
      * @return JsonResponse

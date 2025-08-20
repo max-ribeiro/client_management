@@ -19,7 +19,9 @@
                         <span class="text-gray-800">{{ client.name }}</span>
                     </td>
                     <td class="px-6 py-3 text-gray-600" data-modal-target="info-modal" data-modal-toggle="info-modal" @click="selectedClientID = client.id">{{ client.email }}</td>
-                    <td class="px-6 py-3 text-gray-600" data-modal-target="info-modal" data-modal-toggle="info-modal" @click="selectedClientID = client.id">{{ client.phone }}</td>
+                    <td class="px-6 py-3 text-gray-600" data-modal-target="info-modal" data-modal-toggle="info-modal" @click="selectedClientID = client.id">
+                        {{ client.phone }} <phone-icon v-if="client.phone" class="cursor-pointer" style="width: 18px; height: 18px; display: inline;" :fill="'#505050'" @click="makeCall(client.id)"/>
+                    </td>
                     <td class="px-6 py-3 text-gray-500">
                         <div class="flex flex-row items-center justify-end gap-2">
                             <a data-modal-target="edit-modal" data-modal-toggle="edit-modal">
@@ -39,12 +41,14 @@
     </div>
 </template>
 <script>
-import EditIcon from '../../../icons/edit.svg?component'
-import DeleteIcon from '../../../icons/delete.svg?component'
+import EditIcon from '../../../icons/edit.svg?component';
+import DeleteIcon from '../../../icons/delete.svg?component';
+import PhoneIcon from '../../../icons/phone.svg?component';
 import { initFlowbite } from 'flowbite';
 import DeleteModal from './DeleteModal.vue';
 import EditModal from './EditModal.vue';
 import InfoModal from './InfoModal.vue';
+import notify from '../../Utils/Notify';
 
 export default {
     name: 'ClientList',
@@ -56,6 +60,7 @@ export default {
     components: {
         EditIcon,
         DeleteIcon,
+        PhoneIcon,
         DeleteModal,
         EditModal,
         InfoModal
@@ -76,6 +81,27 @@ export default {
             }, this.selectedClientID);
 
             return client.shift();
+        }
+    },
+    methods: {
+        async makeCall(id) {
+            this.error = null;
+            const token = localStorage.getItem('token');
+            const response = await axios.post(`/api/voip/call/${id}`,{}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
+                }
+            }).then(response => {
+                notify.success('Chamada será efetuada em alguns minutos!');
+            }).catch(error => {
+                notify.error('Erro ao efetuar chamada.');
+                console.error(error);
+                if(403 === error.status) {
+                    localStorage.removeItem('token');
+                    this.$router.push('/');
+                }
+            });
         }
     },
     mounted() {
