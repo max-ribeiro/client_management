@@ -1,11 +1,15 @@
 <script>
 import BaseButton from '../UI/Buttons/BaseButton.vue';
 import LeftArrowIcon from '../../../icons/left.svg?component'
+import ExportIcon from '../../../icons/export.svg?component';
+
 import { Bar, Pie, Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement } from 'chart.js'
+
 import notify from '../../Utils/Notify';
-import axios from 'axios';
 import { ExportToPdf } from  'vue-doc-exporter';
+
+import axios from 'axios';
 
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement)
@@ -18,7 +22,8 @@ export default {
         Doughnut,
         Bar,
         Pie,
-        ExportToPdf
+        ExportToPdf,
+        ExportIcon
     },
     data() {
         return {
@@ -97,7 +102,7 @@ export default {
         getFileName() {
             const isoString = new Date().toISOString(); // e.g., "2025-08-20T23:45:00.123Z"
             const numericISO = isoString.replace(/[^0-9]/g, "");
-            return `client_${numericISO}`;
+            return `clients_${numericISO}`;
         }
     }
 };
@@ -112,11 +117,11 @@ export default {
                     <base-button variant="secondary" @click="navigateBack">
                         <left-arrow-icon></left-arrow-icon> Voltar
                     </base-button>
-                    <base-button variant="secondary">
-                        <ExportToPdf :filename="getFileName()">
-                            Baixar PDF
-                        </ExportToPdf>
-                    </base-button>
+                    <ExportToPdf :filename="getFileName()">
+                        <base-button variant="secondary" title="exportar PDF">
+                            <export-icon fill="#505050" class="w-[16px]"></export-icon> PDF
+                        </base-button>
+                    </ExportToPdf>
                 </div>
                 <section id="charts-section" class="print-container">
                     <!-- Chart por Cidade -->

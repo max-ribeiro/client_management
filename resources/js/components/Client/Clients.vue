@@ -4,6 +4,7 @@ import FormModal from './FormModal.vue';
 import notify from '../../Utils/Notify';
 import ReportIcon from '../../../icons/report.svg?component'
 import BaseButton from '../UI/Buttons/BaseButton.vue';
+import ExportIcon from '../../../icons/export.svg?component';
 import { ExportToCsv } from 'vue-doc-exporter';
 
 export default {
@@ -17,6 +18,7 @@ export default {
     components: {
         ClientList,
         FormModal,
+        ExportIcon,
         ReportIcon,
         BaseButton,
         ExportToCsv
@@ -48,7 +50,7 @@ export default {
         getFileName() {
             const isoString = new Date().toISOString(); // e.g., "2025-08-20T23:45:00.123Z"
             const numericISO = isoString.replace(/[^0-9]/g, "");
-            return `client_${numericISO}`;
+            return `clients_${numericISO}`;
         }
     },
     mounted() {
@@ -84,11 +86,11 @@ export default {
 
                     </div>
                     <div class="flex items-center gap-[16px]">
-                        <base-button variant="secondary">
-                            <export-to-csv element="clients-table" :filename="getFileName()">
-                                Baixar CSV
-                            </export-to-csv>
-                        </base-button>
+                        <export-to-csv element="clients-table" :filename="getFileName()">
+                            <base-button variant="secondary" icon="true" class="flex flex-row" title="exportar CSV">
+                                <export-icon fill="#505050" class="w-[16px]"></export-icon> CSV
+                            </base-button>
+                        </export-to-csv>
                         <base-button :icon="true" data-modal-target="default-modal" data-modal-toggle="default-modal">
                             <span class="mr-1">+</span> Adicionar contato
                         </base-button>
