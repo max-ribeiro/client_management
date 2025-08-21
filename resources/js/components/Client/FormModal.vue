@@ -72,9 +72,6 @@ export default {
             if (payload.phone) {
                 payload.phone = payload.phone.replace(/\D/g, ''); // mantém só dígitos
             }
-            if (payload.age) {
-                payload.age = payload.age.replace(/\D/g, '');
-            }
             if (payload.address.number) {
                 payload.address.number = payload.address.number.replace(/\D/g, '');
             }
@@ -131,7 +128,7 @@ export default {
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
                     <h3 class="text-xl font-semibold text-gray-900">
-                        Adicionar novo cliente
+                        Adicionar novo contato
                     </h3>
                 </div>
 
