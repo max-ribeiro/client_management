@@ -22,12 +22,20 @@ comando `docker compose up -d` que vai prepara e executar os containeres do proj
 docker exec -it max-app bash
 ```
 e depois execute os comandos
-- `php artisan key:generate`
-- `php artisan migrate`
-- `php artisan jwt:secret`
+ ``` bash
+php artisan key:generate
+```
 
-  
+ ``` bash
+php artisan migrate`
+```
+
+``` bash
+php artisan jwt:secret
+```
+
 Com isso ja sera possivel utilizar a API e acessar o Front-end da aplicação
+
 # API - Criando um novo usuario
 Para utilizar tanto o **app front-end** quanto a **API**, precisamos criar um usuario que vai se autenticar usando JWT, para isso faça uma requisição do tipo `POST` para a rota http://localhost:8000/api/auth/register contendo o seguinte payload:
 ``` json
@@ -41,7 +49,9 @@ Retornando assim o token para enviarmos no header das requisições. O usuario r
 
 Outras requisições podem ser vistas nas
 Collections do POSTMan
+
 Drive: https://drive.google.com/file/d/1qVZj_1hwl7szAxqAMlnQVUJuuZ7E-oDR/view?usp=sharing
+
 https://.postman.co/workspace/Personal-Workspace~3652d823-c286-414e-925d-4aa36f43f895/collection/8513761-3d36e437-8c69-4d6d-95b1-609016c2f50e?action=share&creator=8513761
 
 # Aplicação Front-end Web
