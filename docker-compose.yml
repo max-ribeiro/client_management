@@ -7,6 +7,7 @@ services:
     working_dir: /var/www
     volumes:
       - .:/var/www
+      - /var/www/vendor
     ports:
       - "8000:8000"
     environment:
@@ -17,6 +18,7 @@ services:
       - DB_USERNAME=user
       - DB_PASSWORD=password
       - APP_URL=http://localhost:8000
+    command: sh -c "php artisan serve --host=0.0.0.0 --port=8000"
     depends_on:
       - max-mysql
     networks:
@@ -37,8 +39,6 @@ services:
       - "3306:3306"
     networks:
       - max-network
-
-        # Serviço Node.js
   max-node:
     container_name: max-node
     image: node:20

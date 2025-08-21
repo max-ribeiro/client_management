@@ -1,61 +1,49 @@
-# 📞 Sistema de Gestão de Clientes com API, Webhooks, VOIP e Relatórios
+# Tecnologias principais
+- PHP 8.4
+- Laravel 12
+- MySql 8
+- Node 20
+# Getting Started
+## 1. Configurações de ambiente(.env)
+Para adicionar o arquivo .env ao projeto, podemos renomear o arquivo **.env.example**, caso esteja na pasta do projeto usando o terminal, executar o comando: `cp .env.example .env`
+## 2. Docker
+baixar o docker https://docs.docker.com/engine/install/
+acessar o diretorio do projeto e executar o
+comando `docker compose up -d` que vai prepara e executar os containeres do projeto
 
-## 📋 Descrição
-Este projeto é uma aplicação desenvolvida em **Laravel** que implementa um **CRUD de clientes** com suporte a:
-- Armazenamento em banco de dados relacional (MySQL);
-- Separação de entidades **Cliente**, **Endereço** e **Foto**;
-- Envio de **webhooks** para sistemas externos ao criar ou atualizar clientes;
-- Integração com **provedor VOIP** para realizar chamadas a clientes com telefone cadastrado;
-- **Tarefas agendadas** para envio de e-mail de boas-vindas 30 minutos após cadastro;
-- **Relatórios** com gráficos sobre os dados cadastrados;
-- Funcionalidades extras sugeridas para enriquecimento de dados e segmentação.
+> comando: docker compose -d
 
----
+3 containeres serão criados:
+- max-app 
+- max-mysql
+- max-node
 
-## 📑 Sumário
-1. [Planejamento](#-planejamento)
-2. [Configuração para Executar](#-configuração-para-executar)
-3. [Modelagem do Banco de Dados](#-modelagem-do-banco-de-dados)
-4. [Requisições da API](#-requisições-da-api)
-    - [Criar Cliente](#criar-cliente)
-    - [Listar Clientes](#listar-clientes)
-    - [Visualizar Cliente](#visualizar-cliente)
-    - [Atualizar Cliente](#atualizar-cliente)
-    - [Remover Cliente](#remover-cliente)
-5. [Webhooks](#-webhooks)
-6. [Tarefas Agendadas](#-tarefas-agendadas)
-7. [Funcionalidades Extras](#-funcionalidades-extras)
+```
+docker exec -it max-app bash
+```
+e depois execute os comandos
+- `composer install`
+  > caso surja um erro relacionado ao composer.lock, rode o comando `rm composer.lock` e tente novamente
+- `php artisan key:generate`
+- `php artisan migrate`
+- `php artisan jwt:secret`
 
----
+  
+Com isso ja sera possivel utilizar a API e acessar o Front-end da aplicação
+# API - Criando um novo usuario
+Para utilizar tanto o **app front-end** quanto a **API**, precisamos criar um usuario que vai se autenticar usando JWT, para isso faça uma requisição do tipo `POST` para a rota http://localhost:8000/api/auth/register contendo o seguinte payload:
+``` json
+{
+    "name":"usernam",
+    "email":"user@email.com",
+    "password":"secret123"
+}
+```
+Retornando assim o token para enviarmos no header das requisições. O usuario registrado aqui pode ser utilizado para logar no app frontend.
 
-## 📌 Planejamento
+Outras requisições podem ser vistas nas
+[Collections do POSTMan]()
 
-### Objetivos
-- Criar uma API robusta e extensível para gerenciamento de clientes;
-- Garantir organização dos dados por meio de normalização (clientes, endereços e fotos separados);
-- Permitir integração simples com sistemas externos via webhook e VOIP;
-- Gerar insights a partir dos dados cadastrados.
-
-### Stack Utilizada
-- **PHP** 8.4
-- **Laravel** 12
-- **MySQL** 8.x
-
----
-![Project MVP Planning](https://maxribeiro.tech/public/img/client_management_mvp.png)
-
-## ⚙ Configuração para Executar
-docker:
-./vendor/bin/sail up
-
-migrations:
-./vendor/bin/sail artisan migrate
-./vendor/bin/sail artisan migrate --env=testing 
-
-testes:
-Feature
-./vendor/bin/sail artisan test --testsuite=Feature
-
-JWT:
-./vendor/bin/sail php artisan jwt:secret
-
+# Aplicação Front-end Web
+Caso os serviços do docker estejam ativos, basta acessar o endereço `http://http://localhost:8000/`
+Faça login com o usuario criado via API
