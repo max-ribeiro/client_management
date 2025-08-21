@@ -4,6 +4,9 @@ import { createApp } from "vue";
 import axios from 'axios';
 
 import App from "./App.vue";
+import { initFlowbite } from "flowbite";
+
+import VueTheMask from 'vue-the-mask'
 
 const app = createApp(App);
 
@@ -12,7 +15,11 @@ const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('c
 if (token) {
     axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
 }
+router.afterEach(() => {
+  setTimeout(() => initFlowbite(), 0) // garante que o DOM já foi renderizado
+})
 
 app
+    .use(VueTheMask)
     .use(router)
     .mount("#app");

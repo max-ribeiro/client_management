@@ -51,8 +51,7 @@ class Client extends Model
             'picture' => 'sometimes|nullable|array',
             'picture.content' => [
                 'required_with:picture',  // só valida se picture vier
-                'string',
-                'regex:/^[A-Za-z0-9+\/=]+$/', // valida base64
+                'string'
             ],
         ];
     }

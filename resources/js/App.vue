@@ -1,3 +1,8 @@
+<script>
+export default {
+    name: 'App',
+};
+</script>
 <template>
     <router-view v-slot="{ Component, route }">
         <div :key="route.name">
@@ -5,14 +10,3 @@
         </div>
     </router-view>
 </template>
-
-<script>
-import { initFlowbite } from 'flowbite'
-
-export default {
-    name: 'App',
-    mounted() {
-        initFlowbite();
-    }
-};
-</script>

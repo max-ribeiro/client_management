@@ -39,3 +39,8 @@ button {
 .btn.btn-primary {
     background-color: #321BDE !important;
 }
+
+input:hover {
+    border: 1px solid #757575 !important;
+    transition: 0.3s;
+}

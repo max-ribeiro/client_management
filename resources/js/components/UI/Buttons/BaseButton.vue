@@ -1,10 +1,3 @@
-<template>
-    <button :class="classes">
-        <slot>
-        </slot>
-    </button>
-</template>
-
 <script>
 export default {
     name: "Button",
@@ -52,3 +45,9 @@ export default {
     },
 };
 </script>
+<template>
+    <button :class="classes">
+        <slot>
+        </slot>
+    </button>
+</template>

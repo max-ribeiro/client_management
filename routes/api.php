@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\JWTAuthController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\VOIPController;
+
 
 Route::prefix('auth')->group(function () {
     Route::post('login', [JWTAuthController::class, 'login']);
@@ -25,5 +27,8 @@ Route::middleware('jwt')->group(function () {
 
     Route::prefix('v1')->group(function () {
         Route::apiResource('clients', ClientController::class);
+    });
+    Route::prefix('reports')->group(function () {
+        Route::get('', [ReportController::class, 'getChartData']);
     });
 });
