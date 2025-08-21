@@ -2,6 +2,7 @@
 - PHP 8.4
 - Laravel 12
 - MySql 8
+- Vue 3
 - Node 20
 # Getting Started
 ## 1. Configurações de ambiente(.env)
