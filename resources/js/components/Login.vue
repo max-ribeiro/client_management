@@ -2,7 +2,6 @@
 import axios from 'axios';
 import BaseButton from './UI/Buttons/BaseButton.vue';
 import LoginModal from './Modals/LoginModal.vue';
-import notify from '../Utils/Notify';
 
 
 export default {
@@ -17,26 +16,6 @@ export default {
     components: {
         BaseButton,
         LoginModal
-    },
-    methods: {
-        login() {
-            axios.post('/api/auth/login', {
-                email: this.email,
-                password: this.password,
-            }).then(response => {
-                if(200 == response.status) {
-                // salva token no localStorage
-                localStorage.setItem('token', response.data.access_token);
-                // redireciona para a rota de clientes
-                this.$router.push('/clients');
-                }
-                notify.error('Erro ao logar');
-            }).catch(err => {
-                notify.error('Erro ao logar');
-                console.log(err);
-            });
-        
-        },
     },
 };
 </script>
