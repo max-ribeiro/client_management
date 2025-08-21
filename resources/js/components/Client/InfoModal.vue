@@ -75,7 +75,6 @@ export default {
                     <p><strong>Idade:</strong> {{ selectedClient?.age }}</p>
 
                     <div>
-                        <h4 class="font-semibold text-gray-700 mt-4 mb-2">Address</h4>
                         <p><strong>Rua:</strong> {{ selectedClient?.address?.street }}</p>
                         <p><strong>Cidade:</strong> {{ selectedClient?.address?.city }}</p>
                         <p><strong>Estado:</strong> {{ selectedClient?.address?.state }}</p>
