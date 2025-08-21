@@ -58,7 +58,7 @@ export default {
                 <!-- Modal content -->
                 <div class="p-4 md:p-5 text-left">
                     <h3 class="mb-5 text-lg font-normal text-gray-700">
-                        Excluir esse cliente?
+                        Excluir esse contato?
                     </h3>
 
                     <div class="flex justify-end gap-3">
