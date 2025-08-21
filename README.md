@@ -27,7 +27,7 @@ php artisan key:generate
 ```
 
  ``` bash
-php artisan migrate`
+php artisan migrate
 ```
 
 ``` bash
@@ -106,3 +106,16 @@ MAIL_FROM_NAME="${APP_NAME}"
 ```
 
 `/storage/logs/laravel.log`
+
+# Testes
+Foram feitos alguns testes relacionados as operações CRUDs da API
+para executá-los utilizar o comando:
+
+Gerar o token pro .env.testing
+```bash
+php artisan jwt:secret --env=testing
+```
+```bash
+php artisan test
+```
+
