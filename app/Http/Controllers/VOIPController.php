@@ -21,11 +21,16 @@ class VOIPController extends Controller
     public function call(int $id): JsonResponse
     {
         $client = $this->clientService->getClient($id);
+        dd($client);
         if (!$client->phone) {
             return response()->json(['error' => 'Contato não possui telefone'], 400);
         }
 
-        $phoneWithAreaCode = '55'.$client->phone;
+
+        $phone = $client->phone; 
+        if (10 =< count($client->phone)) {
+            $phone = '55'.$phone; 
+        }
         $callSID = $this->voipService->call($phoneWithAreaCode);
 
         return response()->json([
