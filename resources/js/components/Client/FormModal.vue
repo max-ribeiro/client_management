@@ -219,9 +219,8 @@ export default {
                         </div>
 
                         <!-- Foto -->
-                        <h4 class="text-md font-semibold text-gray-700 mt-4">Picture</h4>
                         <div>
-                            <label for="picture" class="block mb-2 text-sm font-medium text-gray-900">Upload Picture</label>
+                            <label for="picture" class="block mb-2 text-sm font-medium text-gray-900">Upload de foto</label>
                             <input type="file" id="picture" name="picture"
                                 accept=".png, .jpg, .jpeg"
                                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"

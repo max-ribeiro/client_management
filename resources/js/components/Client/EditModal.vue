@@ -28,7 +28,7 @@ export default {
     props: {
         title: {
             type: String,
-            default: 'Editar cliente'
+            default: 'Editar contato'
         },
         leftButtonText: {
             type: String,
@@ -220,7 +220,6 @@ export default {
                         </div>
 
                         <!-- Foto -->
-                        <h4 class="text-md font-semibold text-gray-700 mt-4">Foto</h4>
                         <div>
                             <label for="picture" class="block mb-2 text-sm font-medium text-gray-900">Upload
                                 de foto</label>

@@ -1,6 +1,8 @@
 <script>
 import EditIcon from '../../../icons/edit.svg?component';
 import DeleteIcon from '../../../icons/delete.svg?component';
+import { getInitials } from '../../Utils/StringUtils';
+
 
 export default {
     name: 'InfoModal',
@@ -12,6 +14,11 @@ export default {
         selectedClient: {
             type: Object,
             default: () => ({})
+        }
+    },
+    methods: {
+        getFullnameInitials(fullname) {
+            return getInitials(fullname);
         }
     }
 }
@@ -30,10 +37,10 @@ export default {
                         <div
                             class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 font-semibold">
                             <span v-if="selectedClient?.picture">
-                                <img :src="selectedClient?.picture?.content" />
+                                <img class="w-8 h-8 rounded-full object-cover" :src="selectedClient?.picture?.content" />
                             </span>
                             <span v-else>
-                                XX
+                                {{ getFullnameInitials(selectedClient.name) }}
                             </span>
                         </div>
                         <h3 class="text-lg font-semibold text-gray-900">

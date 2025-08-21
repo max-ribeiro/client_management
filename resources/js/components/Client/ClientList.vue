@@ -2,12 +2,14 @@
 import EditIcon from '../../../icons/edit.svg?component';
 import DeleteIcon from '../../../icons/delete.svg?component';
 import PhoneIcon from '../../../icons/phone.svg?component';
+import DownArrow from '../../../icons/south.svg?component';
 import DeleteModal from './DeleteModal.vue';
 import BaseButton from '../UI/Buttons/BaseButton.vue';
 import EditModal from './EditModal.vue';
 import InfoModal from './InfoModal.vue';
 import FormModal from './FormModal.vue';
 import notify from '../../Utils/Notify';
+import { getInitials } from '../../Utils/StringUtils';
 
 export default {
     name: 'ClientList',
@@ -20,6 +22,7 @@ export default {
         EditIcon,
         DeleteIcon,
         PhoneIcon,
+        DownArrow,
         BaseButton,
         DeleteModal,
         EditModal,
@@ -63,6 +66,9 @@ export default {
                     this.$router.push('/');
                 }
             });
+        },
+        getFullnameInitials(fullname) {
+            return getInitials(fullname);
         }
     },
     mounted() {
@@ -80,7 +86,7 @@ export default {
         <table class="min-w-full divide-gray-200 text-[14px]">
             <thead class="divide-y border-b-[1px] border-[#E1E1E1]">
                 <tr>
-                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Nome ↓</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 flex flex-row align-center">Nome <down-arrow class="w-[12px]" fill="#505050"></down-arrow></th>
                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Email</th>
                     <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Telefone</th>
                     <th class="px-6 py-3 text-right text-sm font-medium text-gray-600"></th>
@@ -92,10 +98,10 @@ export default {
                         <div
                             class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 font-semibold">
                             <span v-if="client?.picture?.content">
-                                <img :src="client?.picture?.content" />
+                                <img :src="client?.picture?.content" class="w-8 h-8 rounded-full object-cover"/>
                             </span>
                             <span v-else>
-                                US
+                                {{ getFullnameInitials(client.name)}}
                             </span>
                         </div>
                         <span class="text-gray-800">{{ client.name }}</span>
