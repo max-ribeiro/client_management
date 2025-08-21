@@ -48,7 +48,7 @@ Para utilizar tanto o **app front-end** quanto a **API**, precisamos criar um us
 ```
 Retornando assim o token para enviarmos no header das requisições. O usuario registrado aqui pode ser utilizado para logar no app frontend.
 Adicionar ao header:
-`Àuthorization: Bearer jwttokenhere`
+`Authorization: Bearer jwttokenhere`
 
 Outras requisições podem ser vistas nas
 Collections do POSTMan
