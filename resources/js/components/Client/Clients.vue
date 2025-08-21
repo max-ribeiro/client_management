@@ -9,7 +9,8 @@ export default {
     name: 'Clients',
     data() {
         return {
-            clients: []
+            clients: [],
+            searchText: ''
         }
     },
     components: {
@@ -68,7 +69,7 @@ export default {
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                 </svg>
                             </div>
-                            <input type="search" id="default-search" placeholder="Buscar cliente" 
+                            <input type="search" id="default-search" placeholder="Buscar cliente" v-model="searchText"
                                 class="block w-full h-full ps-10 text-sm text-gray-900 border border-[#E1E1E1] rounded-lg bg-[#F8F8F8] focus:ring-blue-500 focus:border-blue-500"
                             />
                         </div>
@@ -83,7 +84,7 @@ export default {
                         </report-icon>
                     </div>
                 </div>
-                <client-list :clients="clients" @refresh="fetchClients"/>
+                <client-list :clients="clients" @refresh="fetchClients" :search-text="searchText"/>
             </div>
         </div>
     </div>

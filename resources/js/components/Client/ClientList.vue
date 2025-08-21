@@ -15,7 +15,7 @@ export default {
     name: 'ClientList',
     data() {
         return {
-            selectedClientID: null
+            selectedClientID: null,
         }
     },
     components: {
@@ -30,6 +30,10 @@ export default {
         FormModal
     },
     props: {
+        searchText: {
+            type: String,
+            default: ''
+        },
         clients: {
             type: Array,
             default: () => []
@@ -37,15 +41,26 @@ export default {
     },
     computed: {
         selectedClient() {
-            if(!this.selectedClientID) {
+            if (!this.selectedClientID) {
                 return {};
             }
-            const client = this.clients.filter(client => {
-                return client.id == this.selectedClientID;
-            }, this.selectedClientID);
+            return this.clients.find(client => client.id == this.selectedClientID) || {};
+        },
+        filteredClients() {
+            if (!this.searchText) {
+                return this.clients;
+            }
 
-            return client.shift();
-        }
+            const term = this.searchText.toLowerCase();
+
+            return this.clients.filter(client => {
+                return (
+                    (client.name && client.name.toLowerCase().includes(term)) ||
+                    (client.email && client.email.toLowerCase().includes(term)) ||
+                    (client.phone && client.phone.toLowerCase().includes(term))
+                );
+            });
+        },
     },
     methods: {
         async makeCall(id) {
@@ -92,8 +107,8 @@ export default {
                     <th class="px-6 py-3 text-right text-sm font-medium text-gray-600"></th>
                 </tr>
             </thead>
-            <tbody class="" v-if="clients.length">
-                <tr v-for="client in clients" :key="client.id" class=" hover:bg-gray-50 p-[8px]">
+            <tbody class="" v-if="filteredClients.length">
+                <tr v-for="client in filteredClients" :key="client.id" class=" hover:bg-gray-50 p-[8px]">
                     <td class="px-6 py-3 flex items-center space-x-3" data-modal-target="info-modal" data-modal-toggle="info-modal" @click="selectedClientID = client.id">
                         <div
                             class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 font-semibold">
@@ -126,7 +141,7 @@ export default {
                 </tr>
             </tbody>
         </table>
-        <div v-show="!clients.length" class="h-[75vh] w-full flex flex-col items-center justify-center">
+        <div v-show="!filteredClients.length" class="h-[75vh] w-full flex flex-col items-center justify-center">
             <div>
                 <img src="/public/assets/img/book.png" />
             </div>
@@ -136,7 +151,7 @@ export default {
             <form-modal @refresh="$emit('refresh')" />
 
         </div>
-        <span v-if="clients.length">
+        <span v-if="filteredClients.length">
             <delete-modal :selected-client="selectedClientID" @refresh="$emit('refresh')"></delete-modal>
             <edit-modal :selected-client="selectedClient" @refresh="$emit('refresh')"></edit-modal>
             <info-modal :selected-client="selectedClient"></info-modal>
