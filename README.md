@@ -46,5 +46,5 @@ Outras requisições podem ser vistas nas
 https://.postman.co/workspace/Personal-Workspace~3652d823-c286-414e-925d-4aa36f43f895/collection/8513761-3d36e437-8c69-4d6d-95b1-609016c2f50e?action=share&creator=8513761
 
 # Aplicação Front-end Web
-Caso os serviços do docker estejam ativos, basta acessar o endereço `http://http://localhost:8000/`
+Caso os serviços do docker estejam ativos, basta acessar o endereço `localhost:8000/`
 Faça login com o usuario criado via API
