@@ -22,8 +22,6 @@ comando `docker compose up -d` que vai prepara e executar os containeres do proj
 docker exec -it max-app bash
 ```
 e depois execute os comandos
-- `composer install`
-  > caso surja um erro relacionado ao composer.lock, rode o comando `rm composer.lock` e tente novamente
 - `php artisan key:generate`
 - `php artisan migrate`
 - `php artisan jwt:secret`
