@@ -18,7 +18,7 @@ comando `docker compose up -d` que vai prepara e executar os containeres do proj
 - max-mysql
 - max-node
 
-```
+``` bash
 docker exec -it max-app bash
 ```
 e depois execute os comandos
@@ -68,3 +68,41 @@ TWILIO_SID=
 TWILIO_AUTH_TOKEN=
 TWILIO_PHONE_NUMBER=
 ```
+
+| Importante! Lembrar que a versão gratuita da twilio consegue efetuar chamada de audio apenas para numeros
+cadastrados na whitelist da plataforma deles, isso pode ser feito na aba "Phone numbers" > "Verified Caller IDs".
+
+Essa chamada é disparada ao clicar no telefone do contato lista de contatos do "app front end".
+
+# Webhook
+Toda vez que criamos ou editarmos um cliente, uma chamada é feita para o endereço do webhook configurado no env:
+```
+WEBHOOK_SERVER_URL=https://webhook.site/137bcfd9-9d8b-43b5-bce0-cd672c45cb63    
+WEBHOOK_SERVER_SECRET='$2y$12$R3ImPliuEFmHUzlgyDRHDeYNF1crOOj21akfL5qD3VfvZ4rO68W12'
+```
+Para que isso funcion sera necessario executar o comando
+``` bash
+docker exec -it max-app bash
+```
+``` bash
+php artisan queue:work
+```
+Com isso, sempre que houver as alterações citadas acima, uma tarefa será agendado e as informações enviadas para
+o endereço configurado.
+
+# Agendamento de mensagem
+Ao criar um novo usario, um agendamento de envio de mensagem de boas vindas é feito.
+Podemos usar um servidor SMTP como Mailgun, Google, Outlook porem para testes, podemos verificar o email
+enviado nos logs do laravel:
+```
+MAIL_MAILER=log
+MAIL_SCHEME=null
+MAIL_HOST=127.0.0.1
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+`/storage/logs/laravel.log`
