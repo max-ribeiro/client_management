@@ -57,3 +57,14 @@ https://.postman.co/workspace/Personal-Workspace~3652d823-c286-414e-925d-4aa36f4
 # Aplicação Front-end Web
 Caso os serviços do docker estejam ativos, basta acessar o endereço `localhost:8000/`
 Faça login com o usuario criado via API
+
+# Chamada VOIP - Twilio
+Para configuração da chamada de voz será necessario criar uma conta na https://www.twilio.com/en-us 
+Sera necessario vincular um numero de celular a sua conta.
+Logo no começo na aba verificações teremos 2 dados importantes, utilizaremos elas para preencher o nosso arquivo`.env`:
+
+```
+TWILIO_SID=
+TWILIO_AUTH_TOKEN=
+TWILIO_PHONE_NUMBER=
+```
