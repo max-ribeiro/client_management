@@ -42,7 +42,8 @@ Para utilizar tanto o **app front-end** quanto a **API**, precisamos criar um us
 Retornando assim o token para enviarmos no header das requisições. O usuario registrado aqui pode ser utilizado para logar no app frontend.
 
 Outras requisições podem ser vistas nas
-[Collections do POSTMan]()
+[Collections do POSTMan]('https://maxribeiro.tech/other/Client_management.postman_collection.json')
+https://.postman.co/workspace/Personal-Workspace~3652d823-c286-414e-925d-4aa36f43f895/collection/8513761-3d36e437-8c69-4d6d-95b1-609016c2f50e?action=share&creator=8513761
 
 # Aplicação Front-end Web
 Caso os serviços do docker estejam ativos, basta acessar o endereço `http://http://localhost:8000/`
