@@ -156,6 +156,7 @@ export default {
             <tbody v-if="filteredClients.length">
                 <tr v-for="client in filteredClients" :key="client.id" class="hover:bg-gray-50">
                     <td class="px-6 py-3 flex items-center space-x-3 cursor-pointer"
+                        data-modal-target="info-modal" data-modal-toggle="info-modal" 
                         @click="selectedClientID = client.id">
                         <div
                             class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 font-semibold">
@@ -166,18 +167,26 @@ export default {
                         </div>
                         <span class="text-gray-800">{{ client.name }}</span>
                     </td>
-                    <td class="px-6 py-3 text-gray-600 cursor-pointer" @click="selectedClientID = client.id">{{
-                        client.email }}</td>
-                    <td class="px-6 py-3 text-gray-600 cursor-pointer" @click="selectedClientID = client.id">{{
-                        client.phone || '-' }}</td>
+                    <td class="px-6 py-3 text-gray-600 cursor-pointer" 
+                        @click="selectedClientID = client.id"
+                        data-modal-target="info-modal" data-modal-toggle="info-modal"
+                    >
+                        {{ client.email }}
+                    </td>
+                    <td class="px-6 py-3 text-gray-600 cursor-pointer"
+                        data-modal-target="info-modal" data-modal-toggle="info-modal"
+                        @click="selectedClientID = client.id"
+                    >
+                        {{client.phone || '-' }}
+                    </td>
                     <td class="px-6 py-3 text-gray-500">
                         <div class="flex items-center justify-end gap-2">
                             <phone-icon v-if="client.phone" class="cursor-pointer w-[20px] h-[20px]" :fill="'#505050'"
                                 @click="makeCall(client.id)" />
                             <edit-icon class="cursor-pointer w-[20px] h-[20px]" @click="selectedClientID = client.id"
-                                :fill="'#505050'" />
+                                :fill="'#505050'" data-modal-target="edit-modal" data-modal-toggle="edit-modal"/>
                             <delete-icon class="cursor-pointer w-[20px] h-[20px]" @click="selectedClientID = client.id"
-                                :fill="'#505050'" />
+                                :fill="'#505050'" data-modal-target="delete-modal" data-modal-toggle="delete-modal"/>
                         </div>
                     </td>
                 </tr>
