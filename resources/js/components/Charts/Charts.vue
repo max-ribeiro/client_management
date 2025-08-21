@@ -5,6 +5,8 @@ import { Bar, Pie, Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement } from 'chart.js'
 import notify from '../../Utils/Notify';
 import axios from 'axios';
+import { ExportToPdf } from  'vue-doc-exporter';
+
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement)
 
@@ -15,7 +17,8 @@ export default {
         LeftArrowIcon,
         Doughnut,
         Bar,
-        Pie
+        Pie,
+        ExportToPdf
     },
     data() {
         return {
@@ -91,6 +94,11 @@ export default {
                 console.error(error);
             });
         },
+        getFileName() {
+            const isoString = new Date().toISOString(); // e.g., "2025-08-20T23:45:00.123Z"
+            const numericISO = isoString.replace(/[^0-9]/g, "");
+            return `client_${numericISO}`;
+        }
     }
 };
 </script>
@@ -100,21 +108,29 @@ export default {
         <div class="max-w-5xl mx-auto">
             <h1 class="text-xl font-semibold text-gray-800 mb-4">Dados sobre clientes</h1>
             <div class="bg-white rounded-xl shadow p-6">
-                <base-button variant="secondary" @click="navigateBack">
-                    <left-arrow-icon></left-arrow-icon> Voltar
-                </base-button>
-
-                <!-- Chart por Cidade -->
-                <h2 class="text-lg font-semibold mb-2 mt-6">Clientes por Cidade</h2>
-                <Bar :data="chartCity" :options="chartOptions" class="mb-8" />
-
-                <!-- Chart por Estado -->
-                <h2 class="text-lg font-semibold mb-2">Clientes por Estado</h2>
-                <Pie :data="chartState" :options="chartOptions" class="mb-8" />
-
-                <!-- Chart por Faixa Etária -->
-                <h2 class="text-lg font-semibold mb-2">Clientes por Faixa Etária</h2>
-                <Doughnut :data="chartAge" :options="chartOptions" />
+                <div class="flex flex-row justify-between">
+                    <base-button variant="secondary" @click="navigateBack">
+                        <left-arrow-icon></left-arrow-icon> Voltar
+                    </base-button>
+                    <base-button variant="secondary">
+                        <ExportToPdf :filename="getFileName()">
+                            Baixar PDF
+                        </ExportToPdf>
+                    </base-button>
+                </div>
+                <section id="charts-section" class="print-container">
+                    <!-- Chart por Cidade -->
+                    <h2 class="text-lg font-semibold mb-2 mt-6">Clientes por Cidade</h2>
+                    <Bar :data="chartCity" :options="chartOptions" class="mb-8" />
+    
+                    <!-- Chart por Estado -->
+                    <h2 class="text-lg font-semibold mb-2">Clientes por Estado</h2>
+                    <Pie :data="chartState" :options="chartOptions" class="mb-8" />
+    
+                    <!-- Chart por Faixa Etária -->
+                    <h2 class="text-lg font-semibold mb-2">Clientes por Faixa Etária</h2>
+                    <Doughnut :data="chartAge" :options="chartOptions" />
+                </section>
             </div>
         </div>
     </div>

@@ -122,12 +122,12 @@ export default {
 
 <template>
     <div class="overflow-auto" id="client-list">
-        <table class="min-w-full divide-gray-200 text-[14px] table-auto">
+        <table class="min-w-full divide-gray-200 text-[14px] table-auto" id="clients-table">
             <thead class="divide-y border-b-[1px] border-[#E1E1E1]">
                 <tr>
                     <th @click="setSort('name')"
                         class="px-6 py-3 text-left text-sm font-medium text-gray-600 cursor-pointer">
-                        <div class="flex items-center gap-1">
+                        <div class="flex items-center gap-1 font-medium">
                             Nome
                             <down-arrow v-if="sortKey === 'name'" class="w-[12px]"
                                 :class="{ 'rotate-180': sortOrder === 'desc' }" />
