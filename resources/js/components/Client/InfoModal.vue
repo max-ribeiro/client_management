@@ -69,12 +69,11 @@ export default {
 
                 <!-- Modal body -->
                 <div class="p-4 md:p-5 space-y-3">
-                    <p><strong>Nome:</strong> {{ selectedClient?.name }}</p>
-                    <p><strong>Email:</strong> {{ selectedClient?.email }}</p>
-                    <p><strong>Telefone:</strong> {{ selectedClient?.phone }}</p>
-                    <p><strong>Idade:</strong> {{ selectedClient?.age }}</p>
-
                     <div>
+                        <p><strong>Nome:</strong> {{ selectedClient?.name }}</p>
+                        <p><strong>Email:</strong> {{ selectedClient?.email }}</p>
+                        <p><strong>Telefone:</strong> {{ selectedClient?.phone }}</p>
+                        <p><strong>Idade:</strong> {{ selectedClient?.age }}</p>
                         <p><strong>Rua:</strong> {{ selectedClient?.address?.street }}</p>
                         <p><strong>Cidade:</strong> {{ selectedClient?.address?.city }}</p>
                         <p><strong>Estado:</strong> {{ selectedClient?.address?.state }}</p>
