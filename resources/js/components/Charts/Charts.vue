@@ -28,7 +28,19 @@ export default {
                     legend: { position: 'top' },
                     title: { display: false }
                 }
-            }
+            },
+            defaultColors: [
+                '#3b82f6', // azul
+                '#10b981', // verde
+                '#f59e0b', // amarelo
+                '#ef4444', // vermelho
+                '#8b5cf6', // roxo
+                '#ec4899', // rosa
+                '#f472b6', // rosa claro
+                '#06b6d4', // ciano
+                '#facc15', // amarelo claro
+                '#14b8a6'  // teal
+            ]
         }
     },
     mounted() {
@@ -52,7 +64,7 @@ export default {
                         datasets: [{
                             label: 'Clientes por Cidade',
                             data: city.map(item => item.total),
-                            backgroundColor: '#3b82f6'
+                            backgroundColor: this.defaultColors
                         }]
                     };
 
@@ -61,7 +73,7 @@ export default {
                         datasets: [{
                             label: 'Clientes por Estado',
                             data: state.map(item => item.total),
-                            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444']
+                            backgroundColor: this.defaultColors
                         }]
                     };
 
@@ -70,7 +82,7 @@ export default {
                         datasets: [{
                             label: 'Clientes por Faixa Etária',
                             data: ageRanges.map(item => item.total),
-                            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444']
+                            backgroundColor: this.defaultColors
                         }]
                     };
                 }
