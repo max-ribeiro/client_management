@@ -1,3 +1,6 @@
 CREATE USER IF NOT EXISTS 'user'@'%' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON client_manager.* TO 'user'@'%';
 FLUSH PRIVILEGES;
+CREATE USER IF NOT EXISTS 'user'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON testing.* TO 'user'@'%';
+FLUSH PRIVILEGES;
